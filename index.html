@@ -1,37 +1,257 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-  <title>探Q活动网站｜练习版</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f5f7fb;
-      color: #222;
-      margin: 0;
-      padding: 24px;
-    }
-    main {
-      max-width: 720px;
-      margin: 40px auto;
-      padding: 32px;
-      background: white;
-      border-radius: 16px;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#faf9fc">
+<title>2026年的活动日历｜探Q活动回忆档案馆</title>
+<style>
+:root{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Microsoft YaHei",system-ui,sans-serif;color:#2c3041;background:#faf9fc;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0}
+button,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #7951ad;outline-offset:3px}
+.site-header{background:#fff;border-bottom:1px solid #ebe6f2}
+.head-inner{max-width:1200px;margin:auto;min-height:78px;padding:14px 26px;display:flex;justify-content:space-between;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#49345b;font-weight:850;font-size:18px}
+.brand-mark{width:43px;height:43px;display:grid;place-items:center;border-radius:13px;background:#9862bc;color:#fff;font-size:26px}
+.site-nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.site-nav a,.site-nav span{padding:9px 12px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px}
+.site-nav a{color:#49345b;background:#f0e9f6}
+.site-nav span{color:#7f7c89}
+main{max-width:1200px;margin:auto;padding:34px 26px 70px}
+.intro{margin:0 0 24px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.eyebrow{display:inline-block;border-radius:30px;padding:5px 11px;background:#f0e9f6;color:#6b4291;font-size:12px;font-weight:800;letter-spacing:.02em}
+h1{font-size:clamp(25px,3vw,35px);letter-spacing:.02em;margin:12px 0 9px}
+.intro p{margin:0;color:#626579;line-height:1.8}
+.prototype-label{font-size:12px;color:#756581;max-width:260px;text-align:right}
+.filters{display:flex;align-items:end;gap:13px;flex-wrap:wrap;margin-bottom:20px}
+.field{display:grid;gap:7px;min-width:160px}
+.field label{font-size:12px;font-weight:750;color:#606075}
+.field select{border:1px solid #ddd8e5;border-radius:12px;background:#fff;padding:11px 35px 11px 13px;color:#2c3041;min-height:44px}
+.mode-group{display:flex;gap:4px;background:#eee9f3;padding:4px;border-radius:13px}
+.mode-group button{border:0;background:transparent;border-radius:9px;padding:10px 15px;min-height:42px;color:#62576d;font-weight:750}
+.mode-group button[aria-pressed="true"]{background:#fff;color:#7845a0;box-shadow:0 2px 8px #37204616}
+.content-layout{display:grid;grid-template-columns:minmax(0,7fr) minmax(300px,3fr);gap:20px;align-items:start}
+.panel{background:#fff;border:1px solid #eeeaf2;box-shadow:0 8px 22px #35274408;border-radius:22px;padding:24px}
+.cal-toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}
+.cal-toolbar h2{margin:0;font-size:23px;color:#49345b}
+.month-control{display:flex;align-items:center;gap:9px}
+.month-control button{border:1px solid #e5ddeb;color:#6e488f;background:#fff;border-radius:12px;min-width:42px;min-height:42px;font-size:21px}
+.month-control button:disabled{cursor:not-allowed;opacity:.32}
+.weekdays,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.weekdays{margin-bottom:9px}
+.weekdays span{text-align:center;font-size:12px;font-weight:800;color:#757080;padding:5px 0}
+.days button,.days .empty{min-width:0;height:71px;border-radius:13px}
+.days button{border:1px solid #eee9f3;background:#fcfbfd;color:#333145;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;font-weight:750;font-size:17px;transition:background .15s,border-color .15s}
+.days button:hover{background:#f3edf8;border-color:#d6c5e6}
+.days button[aria-pressed="true"]{background:#9862bc;color:#fff;border-color:#9862bc;box-shadow:0 3px 10px #9862bc33}
+.day-dot{width:7px;height:7px;border-radius:50%;background:#e98dbd}
+.days button[aria-pressed="true"] .day-dot{background:#fff}
+.days button:not([aria-pressed="true"]) .day-dot{box-shadow:0 0 0 2px #fce3f0}
+.days .empty{background:transparent}
+.calendar-note{margin:19px 0 0;color:#747083;font-size:12px;line-height:1.7}
+.side-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.side-title h2{margin:0;color:#49345b;font-size:21px}
+.count{background:#f4ebf9;color:#744e91;border-radius:20px;padding:5px 10px;font-size:12px;font-weight:800;white-space:nowrap}
+.selection{margin:0 0 19px;color:#6b647a;line-height:1.6;font-size:13px}
+.event-list{display:grid;gap:14px}
+.event-card{border:1px solid #efeaf4;border-radius:15px;overflow:hidden;background:#fff}
+.card-banner{background:linear-gradient(110deg,#f3e3f4,#e5f0fa);padding:16px 15px;display:flex;align-items:center;gap:12px}
+.card-banner .symbol{background:#fff9;border-radius:12px;width:42px;height:42px;display:grid;place-items:center;font-size:22px}
+.card-banner .banner-text{font-size:12px;font-weight:800;color:#6c5281}
+.card-body{padding:16px}
+.event-tag{font-size:11px;font-weight:800;color:#71469a}
+.card-body h3{font-size:17px;line-height:1.5;margin:7px 0 11px}
+.card-body p{margin:7px 0;font-size:13px;color:#626275;line-height:1.6}
+.review-tag{margin-top:13px!important;color:#7f637c!important;font-size:12px!important}
+.empty-state{padding:25px 16px;background:#faf8fc;border:1px dashed #d8c9e4;border-radius:15px;text-align:center;color:#696277;font-size:14px;line-height:1.8}
+.empty-state strong{display:block;margin-bottom:6px;color:#49345b}
+.side-foot{margin-top:20px;border-top:1px solid #eeeaf2;padding-top:18px}
+.side-foot p{margin:0 0 12px;color:#716979;font-size:12px;line-height:1.7}
+.map-pending{display:block;width:100%;text-align:center;background:#efedf2;color:#77717d;border-radius:12px;padding:12px;font-size:13px;font-weight:800}
+.site-footer{margin:0 auto;max-width:1200px;padding:0 26px 26px;font-size:12px;line-height:1.7;color:#7c7784}
+@media(max-width:850px){.content-layout{grid-template-columns:1fr}.prototype-label{text-align:left}.intro{display:block}.intro .prototype-label{margin-top:12px}.side-panel{order:2}}
+@media(max-width:560px){.head-inner{display:block;padding:15px 16px}.site-nav{margin-top:12px;gap:5px}.site-nav a,.site-nav span{padding:7px 9px;font-size:12px}main{padding:22px 12px 45px}.filters{gap:10px}.field{flex:1 1 130px;min-width:0}.field select{width:100%}.mode-group{width:100%;display:grid;grid-template-columns:1fr 1fr}.panel{padding:14px;border-radius:17px}.cal-toolbar{margin-bottom:15px}.cal-toolbar h2{font-size:20px}.weekdays,.days{gap:4px}.days button,.days .empty{height:clamp(48px,13vw,61px);border-radius:10px}.days button{font-size:14px;gap:5px}.day-dot{width:6px;height:6px}.site-footer{padding:0 15px 22px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+</style>
 </head>
 <body>
-  <main>
-    <h1>名探偵プリキュア！活动资料站</h1>
-    <p>欢迎来到探Q活动网站的开发实验室。</p>
-
-    <h2>当前状态</h2>
-    <p>这是第一个 HTML 页面。</p>
-    <p>网站已通过 GitHub Pages 成功上线！</p>
-    <p>当前仍为开发实验版本，尚未接入正式活动数据库。</p>
-  </main>
+<header class="site-header">
+  <div class="head-inner">
+    <a class="brand" href="./index.html" aria-label="探Q活动回忆档案馆 首页">
+      <span class="brand-mark" aria-hidden="true">⌕</span><span>探Q活动回忆档案馆</span>
+    </a>
+    <nav class="site-nav" aria-label="网站导航">
+      <a href="./index.html" aria-current="page">活动日历</a>
+      <span title="尚未开发">地图 · 开发中</span>
+      <span title="尚未开发">活动档案 · 开发中</span>
+      <span title="尚未开发">关于 · 开发中</span>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="intro">
+    <div>
+      <span class="eyebrow">2026 · 活动回忆档案</span>
+      <h1>2026年的活动日历</h1>
+      <p>选一个日子，看看那一天的探Q留下了哪些活动足迹。</p>
+    </div>
+    <p class="prototype-label">UI 原型 · 仅收录 1 条已定位史料的演示活动，非完整档案</p>
+  </div>
+  <section class="filters" aria-label="活动筛选">
+    <div class="field"><label for="month">浏览月份</label>
+      <select id="month">
+        <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+        <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+        <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+        <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+      </select>
+    </div>
+    <div class="field"><label for="region">地区</label>
+      <select id="region"><option value="all">所有地区</option><option value="tokyo">东京都</option><option value="other">其他地区</option></select>
+    </div>
+    <div class="field"><label for="category">活动类型</label>
+      <select id="category"><option value="all">所有类型</option><option value="staff_talk">制作人员座谈</option><option value="other">其他类型</option></select>
+    </div>
+    <div class="mode-group" aria-label="日期选择方式">
+      <button id="day-mode" type="button" aria-pressed="true">单日</button>
+      <button id="month-mode" type="button" aria-pressed="false">整月</button>
+    </div>
+  </section>
+  <div class="content-layout">
+    <section class="panel" aria-labelledby="calendar-title">
+      <div class="cal-toolbar">
+        <h2 id="calendar-title">2026年10月</h2>
+        <div class="month-control">
+          <button id="previous" aria-label="上个月" title="上个月">‹</button>
+          <button id="next" aria-label="下个月" title="下个月">›</button>
+        </div>
+      </div>
+      <div class="weekdays" aria-hidden="true"><span>周日</span><span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span></div>
+      <div id="days" class="days" aria-label="日期"></div>
+      <p class="calendar-note">● 粉色圆点代表当前筛选条件下有已收录的演示记录。没有圆点不意味着当天没有举办活动。</p>
+    </section>
+    <aside class="panel side-panel" aria-labelledby="list-title">
+      <div class="side-title"><h2 id="list-title">活动预览</h2><span class="count" id="count">1条记录</span></div>
+      <p class="selection" id="selection" aria-live="polite"></p>
+      <div class="event-list" id="event-list" aria-live="polite"></div>
+      <div class="side-foot">
+        <p>这是设计验收用的静态页面，不是完整的 2026 年活动清单。活动详情、地图和正式数据接入将在后续版本制作。</p>
+        <span class="map-pending" aria-disabled="true">在地图查看 · 尚未开放</span>
+      </div>
+    </aside>
+  </div>
+</main>
+<footer class="site-footer">非官方粉丝档案原型。资料持续补全；未收录记录不代表活动不存在。页面所示资料不用于购票或报名。</footer>
+<script>
+"use strict";
+// 初始演示数据：史料导航已定位；不是完整活动库。正式公开前仍须核验官方公告及细节。
+const events = Object.freeze([{
+  id:"sample-staff-talk-20261015",
+  title:"《映画名探偵プリキュア！》Staff Talk",
+  start:"2026-10-15",end:"2026-10-15",
+  prefecture:"tokyo",regionName:"东京都 · 新宿区",
+  category:"staff_talk",categoryName:"制作人员座谈",
+  venue:"新宿バルト9",
+  note:"现有访谈资料库中已定位这场活动；具体时刻、官方公告及素材使用条件仍待正式发布前核对。"
+}]);
+const $=id=>document.getElementById(id);
+const params=new URLSearchParams(window.location.search);
+const allowedMode=["day","month"];
+const validMonth=value=>Number.isInteger(Number(value))&&Number(value)>=1&&Number(value)<=12;
+const validDay=value=>typeof value==="string"&&/^2026-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/.test(value)&&
+  (()=>{const a=value.split("-").map(Number);return new Date(a[0],a[1]-1,a[2]).getMonth()===a[1]-1;})();
+const dateOf=(month,day)=>"2026-"+String(month).padStart(2,"0")+"-"+String(day).padStart(2,"0");
+const initialMonth=validMonth(params.get("month"))?Number(params.get("month")):10;
+const state={month:initialMonth,mode:allowedMode.includes(params.get("mode"))?params.get("mode"):"day",
+  date:validDay(params.get("date"))?params.get("date"):dateOf(initialMonth,15),
+  region:["all","tokyo","other"].includes(params.get("region"))?params.get("region"):"all",
+  category:["all","staff_talk","other"].includes(params.get("category"))?params.get("category"):"all"};
+if(Number(state.date.slice(5,7))!==state.month)state.date=dateOf(state.month,1);
+function persist(){
+ const q=new URLSearchParams();
+ q.set("month",String(state.month));q.set("mode",state.mode);q.set("date",state.date);
+ if(state.region!=="all")q.set("region",state.region);
+ if(state.category!=="all")q.set("category",state.category);
+ history.pushState(null,"",window.location.pathname+"?"+q.toString());
+}
+function matches(e){return (state.region==="all"||e.prefecture===state.region)&&
+ (state.category==="all"||e.category===state.category);}
+function covers(e,date){return e.start<=date&&e.end>=date;}
+function rangeStart(){return state.mode==="month"?dateOf(state.month,1):state.date;}
+function rangeEnd(){return state.mode==="month"?dateOf(state.month,new Date(2026,state.month,0).getDate()):state.date;}
+function filteredEvents(){return events.filter(e=>matches(e)&&e.start<=rangeEnd()&&e.end>=rangeStart());}
+function makeText(tag,text,className){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el;}
+function renderEvents(){
+ const found=filteredEvents(),list=$("event-list");list.replaceChildren();
+ $("count").textContent=found.length+"条记录";
+ $("selection").textContent=state.mode==="month"?"2026年"+state.month+"月 · 整月":"2026年"+state.month+"月"+Number(state.date.slice(8))+"日";
+ if(!found.length){
+   const empty=makeText("div","","empty-state");
+   empty.append(makeText("strong","当前筛选条件下暂无已收录记录"),makeText("span","这不表示当天或当地没有举办探Q活动。"));
+   list.append(empty);return;
+ }
+ for(const e of found){
+   const card=makeText("article","","event-card"),banner=makeText("div","","card-banner");
+   banner.append(makeText("span","✦","symbol"),makeText("span","2026年的活动足迹 · 示例资料","banner-text"));
+   const body=makeText("div","","card-body");
+   body.append(makeText("span",e.categoryName,"event-tag"),makeText("h3",e.title),
+     makeText("p","📅 "+e.start+(e.end!==e.start?" ～ "+e.end:"")),
+     makeText("p","📍 "+e.regionName+" · "+e.venue),
+     makeText("p",e.note,"review-tag"));
+   card.append(banner,body);list.append(card);
+ }
+}
+function renderCalendar(){
+ $("month").value=String(state.month);$("region").value=state.region;$("category").value=state.category;
+ $("day-mode").setAttribute("aria-pressed",String(state.mode==="day"));
+ $("month-mode").setAttribute("aria-pressed",String(state.mode==="month"));
+ $("calendar-title").textContent="2026年"+state.month+"月";
+ $("previous").disabled=state.month===1;$("next").disabled=state.month===12;
+ const root=$("days");root.replaceChildren();
+ const offset=new Date(2026,state.month-1,1).getDay();
+ const numDays=new Date(2026,state.month,0).getDate();
+ for(let i=0;i<offset;i++){const blank=makeText("div","","empty");blank.setAttribute("aria-hidden","true");root.append(blank);}
+ for(let day=1;day<=numDays;day++){
+   const date=dateOf(state.month,day),has=events.some(e=>matches(e)&&covers(e,date));
+   const button=makeText("button",String(day));
+   button.type="button";button.dataset.day=String(day);
+   button.setAttribute("aria-label","2026年"+state.month+"月"+day+"日"+(has?"，有已收录记录":"，当前无已收录记录"));
+   button.setAttribute("aria-pressed",String(state.mode==="day"&&state.date===date));
+   if(has)button.append(makeText("span","","day-dot"));
+   button.addEventListener("click",()=>{
+     state.date=date;state.mode="day";persist();render();});
+   root.append(button);
+ }
+ renderEvents();
+}
+function render(){renderCalendar();}
+function changeMonth(month){
+ if(month<1||month>12)return;
+ state.month=month;
+ state.date=dateOf(month,1);
+ persist();render();
+}
+$("previous").addEventListener("click",()=>changeMonth(state.month-1));
+$("next").addEventListener("click",()=>changeMonth(state.month+1));
+$("month").addEventListener("change",e=>changeMonth(Number(e.target.value)));
+$("region").addEventListener("change",e=>{state.region=e.target.value;persist();render();});
+$("category").addEventListener("change",e=>{state.category=e.target.value;persist();render();});
+$("day-mode").addEventListener("click",()=>{state.mode="day";persist();render();});
+$("month-mode").addEventListener("click",()=>{state.mode="month";persist();render();});
+window.addEventListener("popstate",()=>{
+ const q=new URLSearchParams(location.search),m=Number(q.get("month"));
+ state.month=validMonth(m)?m:10;
+ state.mode=allowedMode.includes(q.get("mode"))?q.get("mode"):"day";
+ state.date=validDay(q.get("date"))?q.get("date"):dateOf(state.month,1);
+ if(Number(state.date.slice(5,7))!==state.month)state.date=dateOf(state.month,1);
+ state.region=["all","tokyo","other"].includes(q.get("region"))?q.get("region"):"all";
+ state.category=["all","staff_talk","other"].includes(q.get("category"))?q.get("category"):"all";
+ render();
+});
+render();
+</script>
 </body>
 </html>
