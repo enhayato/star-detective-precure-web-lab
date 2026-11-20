@@ -70,7 +70,7 @@ h1{font-size:clamp(25px,3vw,35px);letter-spacing:.02em;margin:12px 0 9px}
 .empty-state strong{display:block;margin-bottom:6px;color:#49345b}
 .side-foot{margin-top:20px;border-top:1px solid #eeeaf2;padding-top:18px}
 .side-foot p{margin:0 0 12px;color:#716979;font-size:12px;line-height:1.7}
-.map-pending{display:block;width:100%;text-align:center;background:#efedf2;color:#77717d;border-radius:12px;padding:12px;font-size:13px;font-weight:800}
+.map-pending{display:block;width:100%;text-align:center;text-decoration:none;background:#f2ecf7;color:#754c97;border-radius:12px;padding:12px;font-size:13px;font-weight:800}.map-pending:hover{background:#eadcf4}
 .site-footer{margin:0 auto;max-width:1200px;padding:0 26px 26px;font-size:12px;line-height:1.7;color:#7c7784}
 @media(max-width:850px){.content-layout{grid-template-columns:1fr}.prototype-label{text-align:left}.intro{display:block}.intro .prototype-label{margin-top:12px}.side-panel{order:2}}
 @media(max-width:560px){.head-inner{display:block;padding:15px 16px}.site-nav{margin-top:12px;gap:5px}.site-nav a,.site-nav span{padding:7px 9px;font-size:12px}main{padding:22px 12px 45px}.filters{gap:10px}.field{flex:1 1 130px;min-width:0}.field select{width:100%}.mode-group{width:100%;display:grid;grid-template-columns:1fr 1fr}.panel{padding:14px;border-radius:17px}.cal-toolbar{margin-bottom:15px}.cal-toolbar h2{font-size:20px}.weekdays,.days{gap:4px}.days button,.days .empty{height:clamp(48px,13vw,61px);border-radius:10px}.days button{font-size:14px;gap:5px}.day-dot{width:6px;height:6px}.site-footer{padding:0 15px 22px}}
@@ -85,7 +85,7 @@ h1{font-size:clamp(25px,3vw,35px);letter-spacing:.02em;margin:12px 0 9px}
     </a>
     <nav class="site-nav" aria-label="网站导航">
       <a href="./index.html" aria-current="page">活动日历</a>
-      <span title="尚未开发">地图 · 开发中</span>
+      <a id="nav-map" href="./map.html">活动地图</a>
       <span title="尚未开发">活动档案 · 开发中</span>
       <span title="尚未开发">关于 · 开发中</span>
     </nav>
@@ -138,8 +138,8 @@ h1{font-size:clamp(25px,3vw,35px);letter-spacing:.02em;margin:12px 0 9px}
       <p class="selection" id="selection" aria-live="polite"></p>
       <div class="event-list" id="event-list" aria-live="polite"></div>
       <div class="side-foot">
-        <p>这是设计验收用的静态页面，不是完整的 2026 年活动清单。活动详情、地图和正式数据接入将在后续版本制作。</p>
-        <span class="map-pending" aria-disabled="true">在地图查看 · 尚未开放</span>
+        <p>这是设计验收用的静态页面，不是完整的 2026 年活动清单。活动详情和正式数据接入将在后续版本制作。</p>
+        <a class="map-pending" id="map-link" href="./map.html">在地图查看当前筛选 →</a>
       </div>
     </aside>
   </div>
@@ -227,7 +227,19 @@ function renderCalendar(){
  }
  renderEvents();
 }
-function render(){renderCalendar();}
+function mapUrl(){
+ const q=new URLSearchParams({month:String(state.month),mode:state.mode,date:state.date});
+ if(state.region==="tokyo")q.set("pref","13");
+ if(state.region==="other")q.set("region","other");
+ if(state.category!=="all")q.set("category",state.category);
+ return "./map.html?"+q.toString();
+}
+function render(){
+ renderCalendar();
+ const url=mapUrl();
+ $("map-link").href=url;
+ $("nav-map").href=url;
+}
 function changeMonth(month){
  if(month<1||month>12)return;
  state.month=month;
