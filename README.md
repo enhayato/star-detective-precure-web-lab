@@ -17,7 +17,8 @@
 - **地区粒度限制：**日历只提供「全部／东京都／其他地区」三种选项；地图可选47府县，并在东京都细选区市町村。地图返回日历时，非东京具体府县统一落到「其他地区」，具体区市町村统一落到「东京都」，页面会主动说明筛选粒度变化。
 - **地图范围：**全国47都道府县，二级仅有东京62个区市町村。PR #13 已合并的方案使用**人工排列的方块示意图**取代实时绘制2025版行政轮廓；行政单位名称和编码沿用此前的地图资料。旧边界 JSON 留在仓库供历史追溯、当前不必加载；原始数据版本及其再利用边界仍需按用途核查。详情见 [地图数据说明](docs/MAP_DATA.md)。
 - **演示数据：**只有一条内部史料导航定位的2026-10-15 Staff Talk 示例，**尚未接入完整研究数据库**。不能据此推断活动数量或覆盖范围。
-- **首页开发候选：**独立 `home.html` 已在本开发分支实施三种探索入口，待 PR 审查、合并、Pages 部署及用户 PC/iPhone 验收。已上线的 `index.html` **继续作为活动日历和 Pages 根目录默认入口**；`home.html` 目前不取代它。尚未实现其他46府县二级行政地图、纪念册正式资料核验及图像授权、正式数据导入、离线 ZIP 与关于本站。
+- **独立首页：**PR #15 已于2026-11-21（JST）合并，用户报告检查无问题。`home.html` 提供三种探索入口，`index.html` **继续作为活动日历及 Pages 根目录默认入口**；不将用户的笼统验收报告扩写为已完成每项 PC/iPhone 专项测试。
+- **关于本站开发候选：**本分支新增 `about.html`，说明非官方属性、收录边界、资料核查和 GitHub Issues 更正线索；更新现有五页导航，仍待 PR、Pages 及设备验收。尚未实现其他46府县二级行政地图、纪念册正式资料核验及图像授权、正式数据导入、离线 ZIP。
 
 ## 设计规范与开发计划
 
@@ -31,17 +32,19 @@
 
 已部署网站（`main` 分支）：
 
+- [独立首页](https://enhayato.github.io/star-detective-precure-web-lab/home.html)：PR #15 已合并
 - [活动日历（Pages 根地址保持不变）](https://enhayato.github.io/star-detective-precure-web-lab/)
 - [活动地图](https://enhayato.github.io/star-detective-precure-web-lab/map.html)
 - [活动纪念册原型](event.html)：PR #7 已合并，仍仅含一条演示资料
 - [活动档案列表](archive.html)：PR #11 已合并并完成用户验收
+- [关于本站（本分支候选）](about.html)：资料范围、核查原则和 GitHub Issues 更正线索入口；待合并部署后可访问
 
-**本分支候选：**独立首页 `home.html`；合并并部署后预定地址为 `https://enhayato.github.io/star-detective-precure-web-lab/home.html`，届时可经各页面的「首页」链接进入。**Pages 根地址仍打开旧日历**，不进行自动跳转。新分支上的页面只有经 PR 合并及 Pages 部署成功后才会公开。
+**本分支候选：**新增 `about.html`；经 PR 合并及 Pages 部署后，预计可以从 `https://enhayato.github.io/star-detective-precure-web-lab/about.html` 与各页「关于本站」导航进入。独立首页 `home.html` 已于 PR #15 合并。**Pages 根地址仍打开日历**，不自动跳转；合并部署前不能宣称新页面已经上线。
 
 ## 如何维护
 
 1. 从最新 `main` 创建新的功能分支。
-2. 按功能范围修改 `home.html`（独立首页）、`index.html`（现有日历／Pages 根入口）、`map.html`（地图）、`archive.html`（档案）、`event.html`（纪念册）、`data/events-demo.json`（共用演示资料）及有关文档；不要修改无关文件。
+2. 按功能范围修改 `home.html`（独立首页）、`about.html`（关于本站）、`index.html`（现有日历／Pages 根入口）、`map.html`（地图）、`archive.html`（档案）、`event.html`（纪念册）、`data/events-demo.json`（共用演示资料）及有关文档；不要修改无关文件。
 3. 提交 Commit，创建 Pull Request，检查 Files changed、交互效果、演示数据来源。
 4. 人工批准并合并到 `main`；检查 Actions 的 `pages build and deployment` 是否为 Success。
 5. 在电脑和手机分别检查已发布网页。出错时首先检查 PR 变更及 Actions 日志，不要直接覆盖整仓库。
