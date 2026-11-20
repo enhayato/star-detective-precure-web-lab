@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "description": "仅供V1.2纪念册UI测试，非完整或正式核准的活动数据库",
+  "events": [
+    {
+      "id": "sample-staff-talk-20261015",
+      "title": "《映画名探偵プリキュア！》Staff Talk",
+      "start": "2026-10-15",
+      "end": "2026-10-15",
+      "prefecture": "tokyo",
+      "pref": "13",
+      "muni": "13104",
+      "regionName": "东京都 · 新宿区",
+      "venue": "新宿バルト9",
+      "category": "staff_talk",
+      "categoryName": "制作人员座谈",
+      "summary": "2026年10月15日，在东京都新宿区的新宿バルト9举办了《映画名探偵プリキュア！》相关制作人员座谈。本条是供网站交互测试的演示档案，具体公开信息仍待独立核验。",
+      "note": "演示资料：活动已在内部制作访谈资料库定位；具体开始时间、官方公告、出演细节和图片使用条件仍待公开前复核。",
+      "imageUrls": [],
+      "sourceLinks": [],
+      "relatedIds": []
+    }
+  ]
+}
