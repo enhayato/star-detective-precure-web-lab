@@ -66,6 +66,8 @@ h1{font-size:clamp(25px,3vw,35px);letter-spacing:.02em;margin:12px 0 9px}
 .card-body h3{font-size:17px;line-height:1.5;margin:7px 0 11px}
 .card-body p{margin:7px 0;font-size:13px;color:#626275;line-height:1.6}
 .review-tag{margin-top:13px!important;color:#7f637c!important;font-size:12px!important}
+.detail-link{display:inline-flex;align-items:center;min-height:44px;margin-top:9px;padding:10px 14px;border-radius:11px;background:#f0e9f6;color:#704395;font-size:13px;font-weight:800;text-decoration:none}
+.detail-link:hover{background:#e6d6f1}
 .empty-state{padding:25px 16px;background:#faf8fc;border:1px dashed #d8c9e4;border-radius:15px;text-align:center;color:#696277;font-size:14px;line-height:1.8}
 .empty-state strong{display:block;margin-bottom:6px;color:#49345b}
 .side-foot{margin-top:20px;border-top:1px solid #eeeaf2;padding-top:18px}
@@ -138,7 +140,7 @@ h1{font-size:clamp(25px,3vw,35px);letter-spacing:.02em;margin:12px 0 9px}
       <p class="selection" id="selection" aria-live="polite"></p>
       <div class="event-list" id="event-list" aria-live="polite"></div>
       <div class="side-foot">
-        <p>这是设计验收用的静态页面，不是完整的 2026 年活动清单。活动详情和正式数据接入将在后续版本制作。</p>
+        <p>这是设计验收用的静态页面，不是完整的 2026 年活动清单。当前已有一条活动纪念册演示页；正式数据库仍未接入。</p>
         <a class="map-pending" id="map-link" href="./map.html">在地图查看当前筛选 →</a>
       </div>
     </aside>
@@ -147,16 +149,8 @@ h1{font-size:clamp(25px,3vw,35px);letter-spacing:.02em;margin:12px 0 9px}
 <footer class="site-footer">非官方粉丝档案原型。资料持续补全；未收录记录不代表活动不存在。页面所示资料不用于购票或报名。</footer>
 <script>
 "use strict";
-// 初始演示数据：史料导航已定位；不是完整活动库。正式公开前仍须核验官方公告及细节。
-const events = Object.freeze([{
-  id:"sample-staff-talk-20261015",
-  title:"《映画名探偵プリキュア！》Staff Talk",
-  start:"2026-10-15",end:"2026-10-15",
-  prefecture:"tokyo",regionName:"东京都 · 新宿区",
-  category:"staff_talk",categoryName:"制作人员座谈",
-  venue:"新宿バルト9",
-  note:"现有访谈资料库中已定位这场活动；具体时刻、官方公告及素材使用条件仍待正式发布前核对。"
-}]);
+// 演示活动只维护在 data/events-demo.json。
+let events=[];
 const $=id=>document.getElementById(id);
 const params=new URLSearchParams(window.location.search);
 const allowedMode=["day","month"];
@@ -201,6 +195,12 @@ function renderEvents(){
      makeText("p","📅 "+e.start+(e.end!==e.start?" ～ "+e.end:"")),
      makeText("p","📍 "+e.regionName+" · "+e.venue),
      makeText("p",e.note,"review-tag"));
+   const query=new URLSearchParams({id:e.id,from:"calendar",month:String(state.month),mode:state.mode,date:state.date});
+   if(state.region!=="all")query.set("region",state.region);
+   if(state.category!=="all")query.set("category",state.category);
+   const link=makeText("a","查看活动纪念册 →","detail-link");
+   link.href="./event.html?"+query.toString();
+   body.append(link);
    card.append(banner,body);list.append(card);
  }
 }
@@ -263,7 +263,21 @@ window.addEventListener("popstate",()=>{
  state.category=["all","staff_talk","other"].includes(q.get("category"))?q.get("category"):"all";
  render();
 });
-render();
+(async()=>{
+ try{
+  const response=await fetch("./data/events-demo.json");
+  if(!response.ok)throw Error("演示活动 JSON 请求失败");
+  const data=await response.json();
+  if(!Array.isArray(data.events)||data.events.some(e=>!e.id||!e.start||!e.end))throw Error("演示活动数据格式异常");
+  events=data.events;
+  render();
+ }catch(error){
+  console.error(error);
+  $("count").textContent="读取失败";
+  $("selection").textContent="演示数据暂不可用";
+  $("event-list").replaceChildren(makeText("div","活动记录读取失败，请稍后刷新页面。此状态不代表历史上没有举办活动。","empty-state"));
+ }
+})();
 </script>
 </body>
 </html>

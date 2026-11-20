@@ -70,6 +70,8 @@ h1{font-size:clamp(25px,3vw,35px);margin:12px 0 9px}
 .event-body{padding:15px}
 .event-body h3{font-size:17px;line-height:1.45;margin:0 0 9px}
 .event-body p{font-size:13px;line-height:1.65;color:#646072;margin:6px 0}
+.event-detail{display:inline-flex;align-items:center;min-height:44px;margin-top:8px;padding:10px 14px;border-radius:11px;background:#f1eaf8;color:#704395;text-decoration:none;font-size:13px;font-weight:800}
+.event-detail:hover{background:#e6d6f1}
 .empty{border:1px dashed #d9d0e4;background:#faf9fc;border-radius:13px;padding:22px 14px;text-align:center;color:#6d6877;line-height:1.8;font-size:13px}
 .empty strong{display:block;color:#49345b;margin-bottom:6px}
 .divider{height:1px;background:#eeeaf1;margin:20px 0}
@@ -84,7 +86,7 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
 <body>
 <header><div class="header-inner">
   <a class="logo" href="./index.html"><span class="logo-symbol" aria-hidden="true">⌕</span>探Q活动回忆档案馆</a>
-  <nav aria-label="导航"><a id="calendar-link" href="./index.html">活动日历</a><a href="./map.html" aria-current="page">活动地图</a><span>详情页 · 开发中</span></nav>
+  <nav aria-label="导航"><a id="calendar-link" href="./index.html">活动日历</a><a href="./map.html" aria-current="page">活动地图</a><span>纪念册 · 从活动卡片进入</span></nav>
 </div></header>
 <main>
  <span class="eyebrow">2026 · 地域回忆 · 地图原型</span>
@@ -133,7 +135,7 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
 <script>
 "use strict";
 const ns="http://www.w3.org/2000/svg", $=id=>document.getElementById(id);
-const sample=[{id:"sample-staff-talk-20261015",dateStart:"2026-10-15",dateEnd:"2026-10-15",pref:"13",muni:"13104",title:"《映画名探偵プリキュア！》Staff Talk",place:"东京都新宿区 · 新宿バルト9",type:"制作人员座谈",category:"staff_talk"}];
+let sample=[]; // 与日历、活动纪念册共享 data/events-demo.json
 const q=new URLSearchParams(location.search);
 const validMonth=s=>/^(?:[1-9]|1[0-2])$/.test(String(s));
 const validDate=s=>typeof s==="string"&&/^2026-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(s)&&(()=>{const n=s.split("-").map(Number);return new Date(n[0],n[1]-1,n[2]).getMonth()===n[1]-1;})();
@@ -186,7 +188,7 @@ function changeMonth(m){if(m<1||m>12)return;state.month=m;state.date=dt(m,1);per
 function eventsInRange(){
  const end=state.mode==="month"?dt(state.month,new Date(2026,state.month,0).getDate()):state.date;
  const start=state.mode==="month"?dt(state.month,1):state.date;
- return sample.filter(x=>x.dateStart<=end&&x.dateEnd>=start&&
+ return sample.filter(x=>x.start<=end&&x.end>=start&&
   (state.category==="all"||x.category===state.category)&&
   (state.region!=="other"||x.pref!=="13"));
 }
@@ -264,7 +266,10 @@ function drawEvents(){
  }else{
   for(const e of found){
    const card=text("article","","event"),top=text("div","✦ 2026年的活动足迹 · 演示档案","event-head"),content=text("div","","event-body");
-   content.append(text("h3",e.title),text("p","📅 "+e.dateStart),text("p","📍 "+e.place),text("p","类别："+e.type),text("p","已定位内部史料；具体公告、时间及图片权利尚待正式公开核对。"));
+   content.append(text("h3",e.title),text("p","📅 "+e.start+(e.end!==e.start?" ～ "+e.end:"")),text("p","📍 "+e.regionName+" · "+e.venue),text("p","类别："+e.categoryName),text("p",e.note));
+   const query=getQuery();query.set("id",e.id);query.set("from","map");
+   const link=text("a","查看活动纪念册 →","event-detail");link.href="./event.html?"+query.toString();
+   content.append(link);
    card.append(top,content);root.append(card);
   }
  }
@@ -316,14 +321,18 @@ function initControls(){
  try{
   const response=await Promise.all([
     fetch("./data/map-prefectures-paths.json"),
-    fetch("./data/map-tokyo-paths.json")
+    fetch("./data/map-tokyo-paths.json"),
+    fetch("./data/events-demo.json")
   ]);
-  if(response.some(r=>!r.ok))throw Error("地图数据文件 HTTP 请求失败");
-  [prefectures,tokyo]=await Promise.all(response.map(r=>r.json()));
+  if(response.some(r=>!r.ok))throw Error("地图或演示活动数据 HTTP 请求失败");
+  const [prefData,tokyoData,eventData]=await Promise.all(response.map(r=>r.json()));
+  prefectures=prefData;tokyo=tokyoData;
+  if(!Array.isArray(eventData.events)||eventData.events.some(e=>!e.id||!e.start||!e.end))throw Error("演示活动数据格式异常");
+  sample=eventData.events;
   if(prefectures.features.length!==47||tokyo.features.length!==62)throw Error("地图行政单元数量异常");
   normalizeRegion();initControls();render();
  }catch(e){
-  $("map-canvas").replaceChildren(text("p","地图数据加载失败。请确认 GitHub Pages 已部署两个地图 JSON 文件，再刷新页面。"));
+  $("map-canvas").replaceChildren(text("p","地图或演示活动数据加载失败。请确认 GitHub Pages 资源已部署，再刷新页面。"));
   $("status").textContent="数据加载失败："+e.message;
  }
 })();
