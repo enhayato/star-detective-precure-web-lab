@@ -283,9 +283,18 @@ function placeMapViewport(canvas,svg,key,features,vbox,level,previous){
  const selected=features.find(f=>level==="pref"?state.pref===f.id:state.muni===f.id);
  const focus=selected||features.find(f=>hasEvent(f.id,level));
  const [x,y,w,h]=vbox.split(" ").map(Number);
- const [minLon,minLat,maxLon,maxLat]=focus?focus.bbox:[(x+w/2)/100,-(y+h/2)/100,(x+w/2)/100,-(y+h/2)/100];
- const cx=((minLon+maxLon)*50-x)/w;
- const cy=(-(minLat+maxLat)*50-y)/h;
+ let bounds=focus?focus.bbox:null;
+ // Tokyo prefecture's aggregate bbox includes remote Pacific islands, whose
+ // midpoint falls far from mainland Tokyo. Prefer a recorded municipality
+ // for the initial phone focus when one is available.
+ if(level==="pref"&&focus){
+  const record=eventsForMapScope().find(e=>e.pref===focus.id&&e.muni);
+  const municipality=record&&tokyo.features.find(f=>f.id===record.muni);
+  if(municipality)bounds=municipality.bbox;
+ }
+ const [minLon,minLat,maxLon,maxLat]=bounds||[(x+w/2)/100,-(y+h/2)/100,(x+w/2)/100,-(y+h/2)/100];
+ const cx=Math.max(0,Math.min(1,((minLon+maxLon)*50-x)/w));
+ const cy=Math.max(0,Math.min(1,(-(minLat+maxLat)*50-y)/h));
  const left=viewport.scrollWidth*cx-viewport.clientWidth/2;
  const top=viewport.scrollHeight*cy-viewport.clientHeight/2;
  viewport.scrollLeft=Math.max(0,left);
