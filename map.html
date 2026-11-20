@@ -147,7 +147,7 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
  </div>
  <p class="small-note" id="drill-note">点击东京都可进入62个区市町村的二级示意图。其他府县的二级行政区尚未制作。</p>
  <div class="legend"><span><i class="swatch gray"></i>暂无已收录记录</span><span><i class="swatch lit"></i>有已收录记录（四色之一、金边）</span><span><i class="swatch chosen"></i>当前选中（金边加粗）</span></div>
- <p class="map-credits">行政单位名称和编码以原地图资料为校对基线，图块排列为本站人工设计的示意布局；不使用原行政边界几何。历史边界数据与来源、未决许可问题见<a href="./docs/MAP_DATA.md">地图数据说明</a>。</p>
+ <p class="map-credits">行政单位名称和编码以原地图资料为校对基线，图块排列为本站人工设计的示意布局；不使用原行政边界几何。历史边界数据与来源、未决许可问题见<a href="https://github.com/enhayato/star-detective-precure-web-lab/blob/main/docs/MAP_DATA.md" target="_blank" rel="noopener noreferrer">地图数据说明</a>。</p>
 </section>
 <aside class="panel result" aria-labelledby="event-heading">
  <div class="result-head"><h2 id="event-heading">活动预览</h2><span class="count" id="count">0条</span></div>
@@ -219,9 +219,11 @@ function setPref(value){
  persist();render();if(changed)scrollToMap();
 }
 function setMuni(value){
+ const oldView=state.view;
  state.muni=value;
  if(value!=="all")state.view=layout.tokyo.groups.find(g=>g.id===muniById(value).group).view;
  persist();render();
+ if(state.view!==oldView)scrollToMap();
 }
 function changeMonth(month){
  if(month<1||month>12)return;
@@ -368,7 +370,7 @@ function initControls(){
  $("municipality").addEventListener("change",e=>setMuni(e.target.value));
  $("back").addEventListener("click",()=>setPref("all"));
  for(const button of document.querySelectorAll("#island-tabs button")){
-  button.addEventListener("click",()=>{state.view=button.dataset.view;state.muni="all";persist();render();});
+  button.addEventListener("click",()=>{state.view=button.dataset.view;state.muni="all";persist();render();scrollToMap();});
  }
  window.addEventListener("popstate",()=>{
   const params=new URLSearchParams(location.search),month=params.get("month");
