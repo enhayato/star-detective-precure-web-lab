@@ -115,7 +115,7 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
      </div>
      <p class="small-note" id="drill-note">本阶段仅开放东京都的真实区市町村二级地图。其他府县可选择，详情地图后续制作。</p>
      <div class="legend"><span><i class="swatch gray"></i>当前无已收录记录</span><span><i class="swatch lit"></i>有已收录示例</span><span><i class="swatch chosen"></i>选中区域</span></div>
-     <p class="map-credits">边界来源：<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2025.html" target="_blank" rel="noopener noreferrer">国土交通省 国土数值情報 N03 2025年版</a>，经<a href="https://github.com/kyodo-official/japan-choropleth" target="_blank" rel="noopener noreferrer">共同通信 japan-choropleth</a>加工后，本项目进一步简化为网页用 SVG 路径。基准年为<strong>2025年</strong>，不是2026年行政边界；仅供非测量用途的视觉原型。许可证与测量法适用情况见 <a href="./docs/MAP_DATA.md">数据说明</a>。</p>
+     <p class="map-credits">边界来源：<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2025.html" target="_blank" rel="noopener noreferrer">国土交通省 国土数值情報 N03 2025年版</a>，经<a href="https://github.com/kyodo-official/japan-choropleth" target="_blank" rel="noopener noreferrer">共同通信 japan-choropleth</a>加工后，本项目进一步简化为网页用 SVG 路径。基准年为<strong>2025年</strong>，不是2026年行政边界；仅供非测量用途的视觉原型。许可证与测量法适用情况见 <a href="https://github.com/enhayato/star-detective-precure-web-lab/blob/main/docs/MAP_DATA.md" target="_blank" rel="noopener noreferrer">数据说明</a>。</p>
    </section>
    <aside class="panel result" aria-labelledby="event-heading">
      <div class="result-head"><h2 id="event-heading">活动预览</h2><span class="count" id="count">0条</span></div>
@@ -164,7 +164,13 @@ function persist(){history.pushState(null,"",location.pathname+"?"+getQuery().to
 function setPref(v){
  state.pref=v;state.muni="all";state.view="mainland";persist();render();
 }
-function setMuni(v){state.muni=v;persist();render();}
+function chooseViewForMunicipality(code){
+ const feature=tokyo&&tokyo.features.find(f=>f.id===code);
+ if(!feature)return "mainland";
+ const northernmost=feature.bbox[3];
+ return northernmost>=35.42?"mainland":northernmost>=30.8?"izu":"ogasawara";
+}
+function setMuni(v){state.muni=v;if(v!=="all")state.view=chooseViewForMunicipality(v);persist();render();}
 function changeMonth(m){if(m<1||m>12)return;state.month=m;state.date=dt(m,1);persist();render();}
 function eventsInRange(){
  const end=state.mode==="month"?dt(state.month,new Date(2026,state.month,0).getDate()):state.date;
