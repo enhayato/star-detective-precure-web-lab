@@ -106,7 +106,7 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
  <div class="layout">
    <section class="panel" aria-labelledby="map-heading">
      <div class="map-title"><h2 id="map-heading">全国47都道府县</h2><button type="button" id="back" hidden>返回全国</button></div>
-     <p class="map-tip" id="map-tip">点击都道府县查看，或者使用下方地区选择器。紫色区域代表当前已有示例记录。</p>
+     <p class="map-tip" id="map-tip">点击都道府县查看，或者使用下方地区选择器。四色之一的区域代表当前已有示例记录。</p>
      <div class="map-canvas" id="map-canvas" aria-label="行政区地图"><p>正在载入地图边界……</p></div>
      <div class="region-controls">
        <label>都道府县<select id="prefecture"><option value="all">全国（所有都道府县）</option></select></label>
@@ -197,21 +197,17 @@ function hasEvent(featureId,level){
  const found=eventsInRange();
  return found.some(e=>level==="pref"?e.pref===featureId:e.muni===featureId);
 }
-// Each region gets its own repeatable pseudo-random color: no redraw flicker and no event-count meaning.
-// The avalanche-mixed hash is keyed by administrative level and code (no external data or storage).
-function regionHighlightColor(id,level){
- const colors=["purple","pink","blue","white"];
+// Each draw() has a fresh color map: draw same region consistently, redraw to pick again.
+// Colors have no event-count or administrative meaning and are never persisted.
+const regionColors=["purple","pink","blue","white"];
+function regionHighlightColor(id,level,colorsByRegion){
  const key=level+":"+String(id);
- let hash=2166136261;
- for(let i=0;i<key.length;i++)hash=Math.imul(hash^key.charCodeAt(i),16777619);
- hash^=hash>>>16;
- hash=Math.imul(hash,0x7feb352d);
- hash^=hash>>>15;
- hash=Math.imul(hash,0x846ca68b);
- hash^=hash>>>16;
- return colors[(hash>>>0)%colors.length];
+ if(!colorsByRegion.has(key)){
+  colorsByRegion.set(key,regionColors[Math.floor(Math.random()*regionColors.length)]);
+ }
+ return colorsByRegion.get(key);
 }
-function geometrySVG(features,vbox,level){
+function geometrySVG(features,vbox,level,colorsByRegion){
  const svg=document.createElementNS(ns,"svg");
  svg.setAttribute("viewBox",vbox);
  svg.setAttribute("role","group");
@@ -222,7 +218,7 @@ function geometrySVG(features,vbox,level){
   path.setAttribute("fill-rule","evenodd");
   const active=hasEvent(f.id,level);
   const selected=level==="pref"?state.pref===f.id:state.muni===f.id;
-  path.setAttribute("class","map-region"+(active?" has-record record-"+regionHighlightColor(f.id,level):"")+(selected?" selected":""));
+  path.setAttribute("class","map-region"+(active?" has-record record-"+regionHighlightColor(f.id,level,colorsByRegion):"")+(selected?" selected":""));
   path.setAttribute("role","button");
   path.setAttribute("tabindex","0");
   path.setAttribute("aria-label",f.name+"，"+(active?"有已收录演示活动":"暂无已收录演示活动"));
@@ -242,23 +238,24 @@ function overlapping(f,b){
 }
 function text(tag,value,className){const el=document.createElement(tag);el.textContent=value;if(className)el.className=className;return el;}
 function draw(){
+ const colorsByRegion=new Map(); // Shared by main map and inset during this draw only.
  const canvas=$("map-canvas");canvas.replaceChildren();
  if(state.pref==="13"){
   $("map-heading").textContent="东京都 · 区市町村";
   $("map-tip").textContent="这是第2级行政区地图。点击区域或使用区市町村列表；离岛通过下方分组切换，仍属于同一级地图。";
   const box=viewboxes[state.view];
   const features=tokyo.features.filter(f=>overlapping(f,box));
-  const svg=geometrySVG(features,box,"muni");
+  const svg=geometrySVG(features,box,"muni",colorsByRegion);
   canvas.append(svg);
   $("municipality-field").hidden=false;$("island-tabs").hidden=false;
   $("drill-note").textContent="2025年边界简化原型；地图保留区市町村真实单位，所选日期仅新宿区有一条示例。部分极小岛屿需通过地区列表选择。";
  }else{
   $("map-heading").textContent="全国47都道府县";
-  $("map-tip").textContent=state.pref==="all"?(state.region==="other"?"当前范围为其他地区（不含东京）。点击具体府县可以切换范围。":"点击任一都道府县，或使用下方列表。紫色代表当前已有演示记录。"):"已选择"+(prefectures.features.find(f=>f.id===state.pref)?.name||"地区")+"。本轮只制作东京都二级地图。";
+  $("map-tip").textContent=state.pref==="all"?(state.region==="other"?"当前范围为其他地区（不含东京）。点击具体府县可以切换范围。":"点击任一都道府县，或使用下方列表。紫／粉／蓝／白四色之一代表当前已有演示记录。"):"已选择"+(prefectures.features.find(f=>f.id===state.pref)?.name||"地区")+"。本轮只制作东京都二级地图。";
   const features=prefectures.features.filter(f=>overlapping(f,viewboxes.national));
-  const svg=geometrySVG(features,viewboxes.national,"pref");svg.classList.add("main-japan");canvas.append(svg);
+  const svg=geometrySVG(features,viewboxes.national,"pref",colorsByRegion);svg.classList.add("main-japan");canvas.append(svg);
   const inset=text("div","","inset");inset.append(text("p","冲绳诸岛 · 缩略图"));
-  inset.append(geometrySVG(prefectures.features.filter(f=>f.id==="47"),viewboxes.okinawa,"pref"));
+  inset.append(geometrySVG(prefectures.features.filter(f=>f.id==="47"),viewboxes.okinawa,"pref",colorsByRegion));
   canvas.append(inset);
   $("municipality-field").hidden=true;$("island-tabs").hidden=true;
   $("drill-note").textContent="全国地图为便于浏览的简化示意。冲绳使用单独缩略窗，极小岛屿可通过地区列表选择；只有东京都开放二级地图。";
