@@ -4,64 +4,73 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#faf9fc">
-<title>日本活动地图｜探Q活动回忆档案馆</title>
+<title>日本活动示意地图｜探Q活动回忆档案馆</title>
 <style>
 :root{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Microsoft YaHei",system-ui,sans-serif;color:#2c3041;background:#faf9fc}
-*{box-sizing:border-box}[hidden]{display:none!important}
-body{margin:0}
-button,input,select{font:inherit}
-button{cursor:pointer}
-a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,path:focus-visible{outline:3px solid #9862bc;outline-offset:2px}
+*{box-sizing:border-box}
+body{margin:0;min-width:0}button,input,select{font:inherit}button{cursor:pointer}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #8751ad;outline-offset:3px}
 header{background:#fff;border-bottom:1px solid #eee9f3}
 .header-inner{max-width:1220px;margin:auto;min-height:78px;padding:16px 25px;display:flex;gap:24px;justify-content:space-between;align-items:center}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:850;color:#49345b;font-size:18px}
 .logo-symbol{display:grid;place-items:center;width:42px;height:42px;background:#9862bc;color:#fff;border-radius:13px;font-size:26px}
 nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 nav a,nav span{display:inline-block;padding:9px 12px;border-radius:10px;font-size:14px;font-weight:800}
-nav a{text-decoration:none;color:#49345b;background:#f2eaf8}
-nav span{color:#847a8a}
+nav a{text-decoration:none;color:#49345b;background:#f2eaf8}nav span{color:#847a8a}
 main{max-width:1220px;margin:auto;padding:34px 25px 70px}
 .eyebrow{display:inline-block;padding:6px 12px;border-radius:50px;background:#f0e9f6;color:#714b92;font-size:12px;font-weight:800}
 h1{font-size:clamp(25px,3vw,35px);margin:12px 0 9px}
 .lead{color:#606176;line-height:1.8;margin:0 0 14px}
-.disclaimer{font-size:12px;color:#736e7d;line-height:1.6;margin:0 0 20px}
+.disclaimer{font-size:12px;color:#736e7d;line-height:1.7;margin:0 0 20px}
 .filters{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:22px 0 20px}
-.field{display:grid;gap:7px;min-width:155px}
-.field label{font-size:12px;color:#686279;font-weight:800}
+.field{display:grid;gap:7px;min-width:155px}.field label{font-size:12px;color:#686279;font-weight:800}
 .field select,.field input{padding:11px 13px;border-radius:12px;border:1px solid #dad3e5;background:#fff;color:#2c3041;min-height:44px}
 .mode{display:flex;gap:4px;border-radius:12px;background:#f0eaf4;padding:4px}
 .mode button{border:0;background:transparent;border-radius:9px;color:#72667c;font-weight:750;min-height:40px;padding:9px 15px}
 .mode button[aria-pressed="true"]{background:#fff;color:#704296;box-shadow:0 1px 6px #23152920}
-.layout{display:grid;grid-template-columns:minmax(0,7fr) minmax(295px,3fr);align-items:start;gap:20px}
-.panel{background:#fff;border:1px solid #eeeaf2;border-radius:22px;padding:22px;box-shadow:0 8px 25px #32243d08}
+.layout{display:grid;grid-template-columns:minmax(0,7fr) minmax(285px,3fr);align-items:start;gap:20px}
+.layout>*{min-width:0}
+.panel{background:#fff;border:1px solid #eeeaf2;border-radius:22px;padding:22px;box-shadow:0 8px 25px #32243d08;min-width:0}
 .map-title{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .map-title h2,.panel h2{margin:0;font-size:21px;color:#49345b}
-.map-title button{border:1px solid #e8ddf0;background:#faf6fd;border-radius:10px;color:#754c97;min-height:40px;padding:8px 12px;font-weight:800}
+.map-title button{border:1px solid #e8ddf0;background:#faf6fd;border-radius:10px;color:#754c97;min-height:44px;padding:8px 12px;font-weight:800}
 .map-tip{font-size:13px;line-height:1.7;color:#716e7c;margin:12px 0 15px}
-.map-canvas{border-radius:17px;background:linear-gradient(140deg,#faf9fe,#f3f4fa);padding:12px;overflow:hidden}
-.map-canvas svg{display:block;width:100%;height:auto;touch-action:manipulation}
-.map-viewport{min-width:0}
-.map-mobile-tip{display:none}
-.main-japan{max-height:610px}
-.inset{max-width:235px;margin:0 0 0 auto;background:#fff;border:1px solid #e6dfef;border-radius:12px;padding:8px 10px}
-.inset svg{max-height:110px}
-.inset p{margin:0 0 2px;color:#6e627f;font-size:11px;font-weight:800}
-.map-region{stroke:#fff;stroke-width:1.1;vector-effect:non-scaling-stroke;stroke-linejoin:round;fill:#575665;cursor:pointer;transition:fill .15s,filter .15s}
-.map-region:hover,.map-region:focus{stroke:#fff;stroke-width:2.3;filter:drop-shadow(0 0 5px #9862bc6e)}
-.map-region.has-record{fill:#9862bc;filter:drop-shadow(0 0 4px #9862bc70)}
-.map-region.selected{stroke:#fef1b3;stroke-width:2.5}
-.map-region.selected.has-record{fill:#bd78cc;filter:drop-shadow(0 0 6px #9862bc)}
-.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:#696476;margin:13px 0 0;align-items:center}
-.swatch{display:inline-block;width:13px;height:13px;border-radius:4px;vertical-align:-2px;margin-right:5px}
-.swatch.gray{background:#575665}.swatch.lit{background:#9862bc;box-shadow:0 0 5px #9862bc8c}.swatch.chosen{background:#575665;border:2px solid #d5ac53}
-.map-credits{font-size:11px;color:#736d7b;line-height:1.8;margin:18px 0 0}
-.map-credits a{color:#6f4690}
+.map-canvas{min-width:0;border-radius:17px;background:linear-gradient(140deg,#faf9fe,#f3f4fa);padding:10px;overflow:visible}
+.pref-board{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));grid-template-rows:repeat(14,minmax(43px,auto));gap:4px;max-width:100%;align-items:stretch}
+.pref-group{display:contents}.pref-group-heading{display:none}
+.region-tile{min-width:0;min-height:42px;padding:5px 2px;display:flex;align-items:center;justify-content:center;text-align:center;
+ border:2px solid #f9f7fb;border-radius:9px;background:var(--theme-no-record,#575665);color:#fff;
+ font-size:11px;line-height:1.25;font-weight:850;overflow-wrap:anywhere;cursor:pointer;transition:box-shadow .15s,transform .15s}
+.region-tile:hover{box-shadow:0 0 0 2px #9862bc55;transform:translateY(-1px)}
+.region-tile:focus-visible{position:relative;z-index:1;outline:3px solid #8751ad;outline-offset:2px}
+.pref-tile{grid-column:var(--col)/span var(--tile-w);grid-row:var(--row)/span var(--tile-h)}
+.region-tile.has-record{border-color:var(--theme-gold,#d8b764);box-shadow:0 0 0 1px #d8b76455}
+.region-tile.record-purple{background:var(--theme-purple,#9862bc);color:#fff}
+.region-tile.record-pink{background:var(--theme-pink,#efa1cc);color:#34223d}
+.region-tile.record-blue{background:var(--theme-blue,#8ec8ef);color:#25374c}
+.region-tile.record-white{background:var(--theme-white,#fff);color:#49345b}
+.region-tile.selected{outline:3px solid var(--theme-gold,#d8b764);outline-offset:0;
+ box-shadow:inset 0 0 0 2px var(--theme-gold,#d8b764),0 0 7px #b18f4570}
+.region-tile.selected.has-record{outline-width:4px}
+.tokyo-sections{display:grid;gap:22px}
+.tokyo-section{min-width:0}
+.tokyo-section h3{font-size:15px;color:#49345b;margin:0 0 11px;padding-left:10px;border-left:4px solid var(--theme-blue,#8ec8ef)}
+.tokyo-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}
+.tokyo-tile{min-height:56px;font-size:12px;padding:8px 4px}
+.map-note{font-size:12px;line-height:1.8;color:#706879;margin:12px 0 0}
 .region-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:17px}
 .region-controls label{display:grid;gap:7px;color:#696178;font-size:12px;font-weight:800}
 .region-controls select{min-width:0;max-width:100%;border:1px solid #ddd5e7;border-radius:10px;padding:10px;background:#fff}
 .tabs{display:flex;gap:8px;margin:16px 0 10px;flex-wrap:wrap}
-.tabs button{border:1px solid #e4daed;background:#faf8fc;border-radius:10px;padding:9px 10px;color:#67566e;font-weight:750;font-size:12px;min-height:41px}
+.tabs button{border:1px solid #e4daed;background:#faf8fc;border-radius:10px;padding:9px 12px;color:#67566e;font-weight:750;font-size:12px;min-height:44px}
 .tabs button[aria-pressed="true"]{background:#9862bc;color:#fff;border-color:#9862bc}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:#696476;margin:15px 0 0;align-items:center}
+.swatch{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-3px;margin-right:6px}
+.swatch.gray{background:#575665}
+.swatch.lit{background:linear-gradient(90deg,#9862bc 0% 25%,#efa1cc 25% 50%,#8ec8ef 50% 75%,#fff 75%);border:2px solid #d8b764;width:29px}
+.swatch.chosen{background:#575665;border:3px solid #d8b764}
+.map-credits{font-size:11px;color:#736d7b;line-height:1.8;margin:18px 0 0}
+.map-credits a{color:#6f4690}
 .small-note{margin:12px 0 0;color:#756e7c;line-height:1.7;font-size:12px}
 .result-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .count{border-radius:30px;background:#f2eaf9;padding:6px 11px;font-size:12px;font-weight:850;color:#6b4689}
@@ -69,35 +78,35 @@ h1{font-size:clamp(25px,3vw,35px);margin:12px 0 9px}
 .events{display:grid;gap:14px}
 .event{border:1px solid #eee8f3;border-radius:15px;overflow:hidden}
 .event-head{padding:16px;background:linear-gradient(120deg,#efe2f7,#e5f1fc);font-weight:850;font-size:12px;color:#785a8c}
-.event-body{padding:15px}
-.event-body h3{font-size:17px;line-height:1.45;margin:0 0 9px}
+.event-body{padding:15px}.event-body h3{font-size:17px;line-height:1.45;margin:0 0 9px;overflow-wrap:anywhere}
 .event-body p{font-size:13px;line-height:1.65;color:#646072;margin:6px 0}
 .event-detail{display:inline-flex;align-items:center;min-height:44px;margin-top:8px;padding:10px 14px;border-radius:11px;background:#f1eaf8;color:#704395;text-decoration:none;font-size:13px;font-weight:800}
 .event-detail:hover{background:#e6d6f1}
 .empty{border:1px dashed #d9d0e4;background:#faf9fc;border-radius:13px;padding:22px 14px;text-align:center;color:#6d6877;line-height:1.8;font-size:13px}
 .empty strong{display:block;color:#49345b;margin-bottom:6px}
 .divider{height:1px;background:#eeeaf1;margin:20px 0}
-.secondary-link{display:block;text-align:center;text-decoration:none;padding:13px;border-radius:11px;color:#784d98;background:#f2ecf7;font-weight:800;font-size:13px}
+.secondary-link{display:block;text-align:center;text-decoration:none;padding:13px;border-radius:11px;color:#784d98;background:#f2ecf7;font-weight:800;font-size:13px;min-height:44px}
 .status{font-size:12px;color:#7d7282;margin-top:12px;line-height:1.7}
 footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-height:1.8;color:#716f7a}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.panel.result{order:2}}
-@media(max-width:560px){.header-inner{display:block;padding:14px 15px}.logo{font-size:16px}nav{margin-top:12px;gap:5px}nav a,nav span{font-size:12px;padding:7px 9px}main{padding:24px 12px 45px}.field{flex:1 1 145px;min-width:0}.field select,.field input{width:100%}.mode{width:100%;display:grid;grid-template-columns:1fr 1fr}.panel{padding:14px;border-radius:16px}.map-canvas{padding:7px}.region-controls{grid-template-columns:1fr}.map-title h2{font-size:18px}.map-tip{font-size:12px}.tabs{gap:5px}.tabs button{font-size:11px;padding:8px}}
-/* On narrow phones, preserve readable admin areas by enlarging the SVG inside a native touch-scroll viewport.
-   Do not scale the map's actual geographic paths, or change the desktop full-map presentation. */
+@media(max-width:1110px){.layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:950px){
+ .pref-board{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:auto;gap:9px}
+ .pref-group-heading{display:block;grid-column:1/-1;margin:11px 0 1px;padding:7px 9px;color:#49345b;border-left:4px solid #8ec8ef;font-size:14px;font-weight:850}
+ .pref-tile{grid-column:auto;grid-row:auto;min-height:55px;font-size:14px;padding:9px 5px}
+ .map-canvas{padding:8px}
+}
 @media(max-width:560px){
- .map-viewport{
-  overflow:auto;
-  max-height:65vh;
-  max-height:65dvh;
-  overscroll-behavior:contain;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:thin;
-  border:1px solid #e6dfef;
-  border-radius:12px;
- }
- .map-viewport > svg{width:255vw;min-width:960px;max-width:none;max-height:none}
- .map-viewport > svg.main-japan{width:200vw;min-width:760px;max-width:none;max-height:none}
- .map-mobile-tip{display:block;font-size:12px;line-height:1.7;color:#716e7c;margin:10px 0 4px}
+ .header-inner{display:block;padding:14px 15px}.logo{font-size:16px}
+ nav{margin-top:12px;gap:5px}nav a,nav span{font-size:12px;padding:7px 9px}
+ main{padding:24px 12px 45px}.field{flex:1 1 145px;min-width:0}
+ .field select,.field input{width:100%}
+ .mode{width:100%;display:grid;grid-template-columns:1fr 1fr}
+ .panel{padding:14px;border-radius:16px}
+ .map-title h2{font-size:18px}.map-tip{font-size:12px}
+ .pref-board,.tokyo-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .pref-tile,.tokyo-tile{min-height:54px;font-size:13px}
+ .region-controls{grid-template-columns:1fr}
+ .tabs{gap:5px}.tabs button{font-size:11px;padding:8px 10px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -105,323 +114,284 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
 </head>
 <body>
 <header><div class="header-inner">
-  <a class="logo" href="./index.html"><span class="logo-symbol" aria-hidden="true">⌕</span>探Q活动回忆档案馆</a>
-  <nav aria-label="导航"><a id="calendar-link" href="./index.html">活动日历</a><a href="./map.html" aria-current="page">活动地图</a><a href="./archive.html">活动档案</a><span>纪念册 · 从活动卡片进入</span></nav>
+<a class="logo" href="./index.html"><span class="logo-symbol" aria-hidden="true">⌕</span>探Q活动回忆档案馆</a>
+<nav aria-label="导航"><a id="calendar-link" href="./index.html">活动日历</a><a href="./map.html" aria-current="page">活动地图</a><a href="./archive.html">活动档案</a><span>纪念册 · 从活动卡片进入</span></nav>
 </div></header>
 <main>
- <span class="eyebrow">2026 · 地域回忆 · 地图原型</span>
- <h1>日本活动地图</h1>
- <p class="lead">从日本全国出发，发现2026年探Q曾经留下的活动足迹。</p>
- <p class="disclaimer">原型仅包含一条待正式公开核验的示例记录；彩色区域表示“当前筛选条件下有已收录示例”，不表示实际活动覆盖率。</p>
- <section class="filters" aria-label="时间与类型条件">
-   <div class="field"><label for="month">月份（2026年）</label><select id="month"></select></div>
-   <div class="field" id="date-field"><label for="date">具体日期</label><input id="date" type="date" min="2026-01-01" max="2026-12-31" value="2026-10-15"></div>
-   <div class="field"><label for="category">活动类型</label><select id="category"><option value="all">所有类型</option><option value="staff_talk">制作人员座谈</option><option value="other">其他类型</option></select></div>
-   <div class="mode" aria-label="时间范围">
-     <button id="mode-day" type="button" aria-pressed="true">单日</button>
-     <button id="mode-month" type="button" aria-pressed="false">整月</button>
-   </div>
- </section>
- <div class="layout">
-   <section class="panel" aria-labelledby="map-heading">
-     <div class="map-title"><h2 id="map-heading">全国47都道府县</h2><button type="button" id="back" hidden>返回全国</button></div>
-     <p class="map-tip" id="map-tip">点击都道府县查看，或者使用下方地区选择器。四色之一的区域代表当前已有示例记录。</p>
-     <div class="map-canvas" id="map-canvas" aria-label="行政区地图"><p>正在载入地图边界……</p></div>
-     <p class="map-mobile-tip">手机端已放大地图，可在地图内用手指左右、上下滑动查看。也可使用下方地区选择器。</p>
-     <div class="region-controls">
-       <label>都道府县<select id="prefecture"><option value="all">全国（所有都道府县）</option></select></label>
-       <label id="municipality-field" hidden>东京都区市町村<select id="municipality"><option value="all">东京都全域</option></select></label>
-     </div>
-     <div class="tabs" id="island-tabs" hidden>
-       <button type="button" data-view="mainland" aria-pressed="true">23区·多摩</button>
-       <button type="button" data-view="izu" aria-pressed="false">伊豆诸岛</button>
-       <button type="button" data-view="ogasawara" aria-pressed="false">小笠原诸岛</button>
-     </div>
-     <p class="small-note" id="drill-note">本阶段仅开放东京都的真实区市町村二级地图。其他府县可选择，详情地图后续制作。</p>
-     <div class="legend"><span><i class="swatch gray"></i>当前无已收录记录</span><span><i class="swatch lit"></i>有已收录示例（四色之一、金边）</span><span><i class="swatch chosen"></i>选中区域（金边加粗）</span></div>
-     <p class="map-credits">边界来源：<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2025.html" target="_blank" rel="noopener noreferrer">国土交通省 国土数值情報 N03 2025年版</a>，经<a href="https://github.com/kyodo-official/japan-choropleth" target="_blank" rel="noopener noreferrer">共同通信 japan-choropleth</a>加工后，本项目进一步简化为网页用 SVG 路径。基准年为<strong>2025年</strong>，不是2026年行政边界；仅供非测量用途的视觉原型。许可证与测量法适用情况见 <a href="https://github.com/enhayato/star-detective-precure-web-lab/blob/main/docs/MAP_DATA.md" target="_blank" rel="noopener noreferrer">数据说明</a>。</p>
-   </section>
-   <aside class="panel result" aria-labelledby="event-heading">
-     <div class="result-head"><h2 id="event-heading">活动预览</h2><span class="count" id="count">0条</span></div>
-     <p class="selection-summary" id="selection" aria-live="polite"></p>
-     <div class="events" id="events" aria-live="polite"></div>
-     <div class="divider"></div>
-     <a class="secondary-link" id="calendar-return" href="./index.html">返回日历查看当前筛选</a>
-     <a class="secondary-link" id="archive-return" href="./archive.html" style="margin-top:10px">在档案列表查看当前筛选</a>
-     <p class="status" id="archive-granularity-note" hidden>档案列表目前只支持“东京都／其他地区”粗粒度筛选，具体府县或东京区市町村条件会扩大到对应地区。</p>
-     <p class="status" id="granularity-note" hidden>日历目前只支持“东京都／其他地区”两类地区筛选。返回日历后会保留日期和类型，但具体府县或区市町村筛选会合并为对应的大区。</p>
-     <p class="status" id="status">演示版 · 未接入正式研究数据库</p>
-   </aside>
+<span class="eyebrow">2026 · 地域回忆 · 方块示意地图</span>
+<h1>日本活动示意地图</h1>
+<p class="lead">点击一个都道府县或东京区市町村，发现2026年的探Q活动足迹。</p>
+<p class="disclaimer">这是按地区排列的示意方块图，不代表真实边界、面积或精确相邻关系。本站目前只有一条待正式公开核验的 Staff Talk 演示记录；彩色区块仅表示当前筛选下存在已收录演示资料。</p>
+<section class="filters" aria-label="时间与类型条件">
+ <div class="field"><label for="month">月份（2026年）</label><select id="month"></select></div>
+ <div class="field" id="date-field"><label for="date">具体日期</label><input id="date" type="date" min="2026-01-01" max="2026-12-31" value="2026-10-15"></div>
+ <div class="field"><label for="category">活动类型</label><select id="category"><option value="all">所有类型</option><option value="staff_talk">制作人员座谈</option><option value="other">其他类型</option></select></div>
+ <div class="mode" aria-label="时间范围">
+  <button id="mode-day" type="button" aria-pressed="true">单日</button><button id="mode-month" type="button" aria-pressed="false">整月</button>
  </div>
+</section>
+<div class="layout">
+<section class="panel" id="map-panel" aria-labelledby="map-heading">
+ <div class="map-title"><h2 id="map-heading">全国47都道府县</h2><button type="button" id="back" hidden>返回全国</button></div>
+ <p class="map-tip" id="map-tip">桌面端按大致地理位置排列；手机端按地方分组，点击方块选择行政区。</p>
+ <div class="map-canvas" id="map-canvas" aria-label="地区方块示意地图"><p>正在载入示意布局……</p></div>
+ <p class="map-note">方块表示行政单位，不按面积、距离或活动数量缩放。手机端可直接向下浏览全部地区，无须在地图内另行拖动。</p>
+ <div class="region-controls">
+  <label>都道府县<select id="prefecture"><option value="all">全国（所有都道府县）</option></select></label>
+  <label id="municipality-field" hidden>东京都区市町村<select id="municipality"><option value="all">东京都全域</option></select></label>
+ </div>
+ <div class="tabs" id="island-tabs" hidden>
+  <button type="button" data-view="mainland" aria-pressed="true">23区・多摩</button>
+  <button type="button" data-view="izu" aria-pressed="false">伊豆诸岛</button>
+  <button type="button" data-view="ogasawara" aria-pressed="false">小笠原诸岛</button>
+ </div>
+ <p class="small-note" id="drill-note">点击东京都可进入62个区市町村的二级示意图。其他府县的二级行政区尚未制作。</p>
+ <div class="legend"><span><i class="swatch gray"></i>暂无已收录记录</span><span><i class="swatch lit"></i>有已收录记录（四色之一、金边）</span><span><i class="swatch chosen"></i>当前选中（金边加粗）</span></div>
+ <p class="map-credits">行政单位名称和编码以原地图资料为校对基线，图块排列为本站人工设计的示意布局；不使用原行政边界几何。历史边界数据与来源、未决许可问题见<a href="./docs/MAP_DATA.md">地图数据说明</a>。</p>
+</section>
+<aside class="panel result" aria-labelledby="event-heading">
+ <div class="result-head"><h2 id="event-heading">活动预览</h2><span class="count" id="count">0条</span></div>
+ <p class="selection-summary" id="selection" aria-live="polite"></p>
+ <div class="events" id="events" aria-live="polite"></div>
+ <div class="divider"></div>
+ <a class="secondary-link" id="calendar-return" href="./index.html">返回日历查看当前筛选</a>
+ <a class="secondary-link" id="archive-return" href="./archive.html" style="margin-top:10px">在档案列表查看当前筛选</a>
+ <p class="status" id="archive-granularity-note" hidden>档案列表仅支持“东京都／其他地区”粗粒度筛选，具体府县或区市町村条件会扩大到对应地区。</p>
+ <p class="status" id="granularity-note" hidden>日历目前只支持“东京都／其他地区”两类地区筛选；返回日历时保留日期和类型，但具体府县或区市町村会合并为对应大区。</p>
+ <p class="status" id="status">演示版 · 未接入正式研究数据库</p>
+</aside>
+</div>
 </main>
-<footer>非官方粉丝档案原型。没有彩色记录的区域，不代表历史上确实没有活动。日本行政区地理数据经过简化，不适用于测量或精确导航。</footer>
+<footer>非官方粉丝活动回忆档案。没有已收录记录，不代表2026年当地没有举办活动。本图为示意布局，不用于测量或导航。</footer>
 <script>
 "use strict";
-const ns="http://www.w3.org/2000/svg", $=id=>document.getElementById(id);
-let sample=[]; // 与日历、活动纪念册共享 data/events-demo.json
+const $=id=>document.getElementById(id);
 const q=new URLSearchParams(location.search);
 const validMonth=s=>/^(?:[1-9]|1[0-2])$/.test(String(s));
-const validDate=s=>typeof s==="string"&&/^2026-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(s)&&(()=>{const n=s.split("-").map(Number);return new Date(n[0],n[1]-1,n[2]).getMonth()===n[1]-1;})();
+const validDate=s=>typeof s==="string"&&/^2026-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(s)&&(()=>{
+ const a=s.split("-").map(Number);return new Date(a[0],a[1]-1,a[2]).getMonth()===a[1]-1;
+})();
 const dt=(m,d)=>"2026-"+String(m).padStart(2,"0")+"-"+String(d).padStart(2,"0");
-const state={month:validMonth(q.get("month"))?Number(q.get("month")):10,mode:q.get("mode")==="month"?"month":"day",date:validDate(q.get("date"))?q.get("date"):"2026-10-15",pref:"all",muni:"all",view:"mainland",region:"all",category:"all"};
-if(Number(state.date.slice(5,7))!==state.month)state.date=dt(state.month,1);
-let prefectures=null,tokyo=null;
-const viewboxes={
- national:"12820 -4570 1810 1560",
- okinawa:"12230 -2790 945 430",
- mainland:"13875 -3592 133 54",
- izu:"13830 -3510 212 314",
- ogasawara:"14040 -3090 1480 1080"
+const state={
+ month:validMonth(q.get("month"))?Number(q.get("month")):10,
+ mode:q.get("mode")==="month"?"month":"day",
+ date:validDate(q.get("date"))?q.get("date"):"2026-10-15",
+ pref:"all",muni:"all",view:"mainland",region:"all",category:"all"
 };
-function regionFromPref(pref){
- return pref==="all"?"all":(pref==="13"?"tokyo":"other");
+if(Number(state.date.slice(5,7))!==state.month)state.date=dt(state.month,1);
+let layout=null,sample=[];
+const colors=["purple","pink","blue","white"];
+const prefById=id=>layout.prefectures.items.find(f=>f.id===id);
+const muniById=id=>layout.tokyo.items.find(f=>f.id===id);
+function text(tag,value,className){
+ const el=document.createElement(tag);el.textContent=value;
+ if(className)el.className=className;return el;
 }
+function regionFromPref(pref){return pref==="all"?"all":pref==="13"?"tokyo":"other";}
 function restoreLocationAndCategory(params){
- const requestedPref=params.get("pref");
- state.pref=prefectures.features.some(f=>f.id===requestedPref)?requestedPref:"all";
- // The calendar can express Tokyo or all non-Tokyo regions, not individual non-Tokyo prefectures.
+ const pref=params.get("pref");
+ state.pref=prefById(pref)?pref:"all";
  if(state.pref==="all"&&params.get("region")==="tokyo")state.pref="13";
  state.region=state.pref==="all"?(params.get("region")==="other"?"other":"all"):regionFromPref(state.pref);
- state.muni=state.pref==="13"&&tokyo.features.some(f=>f.id===params.get("muni"))?params.get("muni"):"all";
+ const muni=params.get("muni");
+ state.muni=state.pref==="13"&&muniById(muni)?muni:"all";
  state.view=["mainland","izu","ogasawara"].includes(params.get("view"))?params.get("view"):"mainland";
+ if(state.muni!=="all")state.view=layout.tokyo.groups.find(g=>g.id===muniById(state.muni).group).view;
  state.category=["all","staff_talk","other"].includes(params.get("category"))?params.get("category"):"all";
 }
-function normalizeRegion(){restoreLocationAndCategory(q);}
 function getQuery(){
- const a=new URLSearchParams({month:String(state.month),mode:state.mode,date:state.date});
- if(state.pref!=="all")a.set("pref",state.pref);
- if(state.pref==="all"&&state.region==="other")a.set("region","other");
- if(state.category!=="all")a.set("category",state.category);
- if(state.pref==="13"&&state.muni!=="all")a.set("muni",state.muni);
- if(state.pref==="13"&&state.view!=="mainland")a.set("view",state.view);
- return a;
+ const p=new URLSearchParams({month:String(state.month),mode:state.mode,date:state.date});
+ if(state.pref!=="all")p.set("pref",state.pref);
+ if(state.pref==="all"&&state.region==="other")p.set("region","other");
+ if(state.category!=="all")p.set("category",state.category);
+ if(state.pref==="13"&&state.muni!=="all")p.set("muni",state.muni);
+ if(state.pref==="13"&&state.view!=="mainland")p.set("view",state.view);
+ return p;
 }
 function persist(){history.pushState(null,"",location.pathname+"?"+getQuery().toString());}
-function setPref(v){
- state.pref=v;state.region=regionFromPref(v);state.muni="all";state.view="mainland";persist();render();
+function scrollToMap(){
+ if(window.matchMedia&&window.matchMedia("(max-width:950px)").matches)$("map-panel").scrollIntoView({behavior:"auto",block:"start"});
 }
-function chooseViewForMunicipality(code){
- const feature=tokyo&&tokyo.features.find(f=>f.id===code);
- if(!feature)return "mainland";
- const northernmost=feature.bbox[3];
- return northernmost>=35.42?"mainland":northernmost>=30.8?"izu":"ogasawara";
+function setPref(value){
+ const changed=(state.pref==="13")!==(value==="13");
+ state.pref=value;state.region=regionFromPref(value);
+ state.muni="all";state.view="mainland";
+ persist();render();if(changed)scrollToMap();
 }
-function setMuni(v){state.muni=v;if(v!=="all")state.view=chooseViewForMunicipality(v);persist();render();}
-function changeMonth(m){if(m<1||m>12)return;state.month=m;state.date=dt(m,1);persist();render();}
+function setMuni(value){
+ state.muni=value;
+ if(value!=="all")state.view=layout.tokyo.groups.find(g=>g.id===muniById(value).group).view;
+ persist();render();
+}
+function changeMonth(month){
+ if(month<1||month>12)return;
+ state.month=month;state.date=dt(month,1);persist();render();
+}
 function eventsInRange(){
  const end=state.mode==="month"?dt(state.month,new Date(2026,state.month,0).getDate()):state.date;
  const start=state.mode==="month"?dt(state.month,1):state.date;
- // Time and category determine each area's record color; clicking another area
- // must not erase a recorded area from the map.
- return sample.filter(x=>x.start<=end&&x.end>=start&&
-  (state.category==="all"||x.category===state.category));
+ return sample.filter(e=>e.start<=end&&e.end>=start&&(state.category==="all"||e.category===state.category));
 }
 function eventsForMapScope(){
- // Only the explicit "other regions" whole-map view inherited from the
- // calendar narrows nationwide highlights. Selecting a specific prefecture
- // changes the preview, not other prefectures' recorded status.
- const found=eventsInRange();
- return state.pref==="all"&&state.region==="other"
-  ?found.filter(x=>x.pref!=="13"):found;
+ const matches=eventsInRange();
+ return state.pref==="all"&&state.region==="other"?matches.filter(e=>e.pref!=="13"):matches;
 }
-function hasEvent(featureId,level){
- return eventsForMapScope().some(e=>level==="pref"?e.pref===featureId:e.muni===featureId);
-}
-// Each draw() has a fresh color map: draw same region consistently, redraw to pick again.
-// Colors have no event-count or administrative meaning and are never persisted.
-const regionColors=["purple","pink","blue","white"];
-function regionHighlightColor(id,level,colorsByRegion){
- const key=level+":"+String(id);
- if(!colorsByRegion.has(key)){
-  colorsByRegion.set(key,regionColors[Math.floor(Math.random()*regionColors.length)]);
+function hasEvent(id,level){return eventsForMapScope().some(e=>level==="pref"?e.pref===id:e.muni===id);}
+function makeTile(item,level,colorMap){
+ const active=hasEvent(item.id,level),selected=level==="pref"?state.pref===item.id:state.muni===item.id;
+ const button=text("button",level==="pref"?(item.name==="北海道"?"北海道":item.name.replace(/[都府県]$/,"")):item.name,"region-tile "+(level==="pref"?"pref-tile":"tokyo-tile"));
+ button.type="button";
+ const key=level+":"+item.id;
+ if(active){
+  if(!colorMap.has(key))colorMap.set(key,colors[Math.floor(Math.random()*colors.length)]);
+  button.classList.add("has-record","record-"+colorMap.get(key));
  }
- return colorsByRegion.get(key);
-}
-function geometrySVG(features,vbox,level,colorsByRegion){
- const svg=document.createElementNS(ns,"svg");
- svg.setAttribute("viewBox",vbox);
- svg.setAttribute("role","group");
- svg.setAttribute("aria-label",level==="pref"?"47都道府县边界":"东京都区市町村边界");
- for(const f of features){
-  const path=document.createElementNS(ns,"path");
-  path.setAttribute("d",f.d);
-  path.setAttribute("fill-rule","evenodd");
-  const active=hasEvent(f.id,level);
-  const selected=level==="pref"?state.pref===f.id:state.muni===f.id;
-  path.setAttribute("class","map-region"+(active?" has-record record-"+regionHighlightColor(f.id,level,colorsByRegion):"")+(selected?" selected":""));
-  path.setAttribute("role","button");
-  path.setAttribute("tabindex","0");
-  path.setAttribute("aria-label",f.name+"，"+(active?"有已收录演示活动":"暂无已收录演示活动"));
-  const title=document.createElementNS(ns,"title");title.textContent=f.name;path.append(title);
-  function choose(){if(level==="pref")setPref(f.id);else setMuni(f.id);}
-  path.addEventListener("click",choose);
-  path.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();choose();}});
-  svg.append(path);
+ if(selected)button.classList.add("selected");
+ button.setAttribute("aria-pressed",String(selected));
+ button.setAttribute("aria-label",item.name+"，"+(active?"有已收录演示记录":"当前无已收录演示记录")+(selected?"，已选中":""));
+ button.title=item.name;
+ if(level==="pref"){
+  button.style.setProperty("--col",item.col);
+  button.style.setProperty("--row",item.row);
+  button.style.setProperty("--tile-w",item.w);
+  button.style.setProperty("--tile-h",item.h);
  }
- return svg;
+ button.addEventListener("click",()=>level==="pref"?setPref(item.id):setMuni(item.id));
+ return button;
 }
-function overlapping(f,b){
- const [minx,miny,maxx,maxy]=f.bbox;
- const [lx,ty,w,h]=b.split(" ").map(Number);
- const lonMin=lx/100,lonMax=(lx+w)/100,latMax=-ty/100,latMin=-(ty+h)/100;
- return minx<=lonMax&&maxx>=lonMin&&miny<=latMax&&maxy>=latMin;
+function drawPrefectureBoard(root,colorMap){
+ const board=text("div","","pref-board");
+ for(const group of layout.prefectures.groups){
+  const section=text("div","","pref-group");
+  section.append(text("h3",group.name,"pref-group-heading"));
+  for(const item of layout.prefectures.items.filter(x=>x.group===group.id))section.append(makeTile(item,"pref",colorMap));
+  board.append(section);
+ }
+ root.append(board);
 }
-function text(tag,value,className){const el=document.createElement(tag);el.textContent=value;if(className)el.className=className;return el;}
-function placeMapViewport(canvas,svg,key,features,vbox,level,previous){
- const viewport=text("div","","map-viewport");
- viewport.dataset.mapKey=key;
- viewport.append(svg);
- canvas.append(viewport);
- // A redraw keeps the user's current scroll position on the same geographic view.
- if(previous&&previous.key===key){
-  viewport.scrollLeft=previous.left;
-  viewport.scrollTop=previous.top;
-  return;
+function drawTokyoBoard(root,colorMap){
+ const groups=layout.tokyo.groups.filter(g=>g.view===state.view);
+ const container=text("div","","tokyo-sections");
+ for(const group of groups){
+  const section=text("section","","tokyo-section"),heading=text("h3",group.name);
+  const grid=text("div","","tokyo-grid");
+  grid.setAttribute("aria-label",group.name);
+  for(const item of layout.tokyo.items.filter(x=>x.group===group.id))grid.append(makeTile(item,"muni",colorMap));
+  section.append(heading,grid);container.append(section);
  }
- // On first arrival to a view, center a selected/recorded administrative region
- // so the zoomed iPhone view opens on useful geography instead of empty sea.
- const selected=features.find(f=>level==="pref"?state.pref===f.id:state.muni===f.id);
- const focus=selected||features.find(f=>hasEvent(f.id,level));
- const [x,y,w,h]=vbox.split(" ").map(Number);
- let bounds=focus?focus.bbox:null;
- // Tokyo prefecture's aggregate bbox includes remote Pacific islands, whose
- // midpoint falls far from mainland Tokyo. Prefer a recorded municipality
- // for the initial phone focus when one is available.
- if(level==="pref"&&focus){
-  const record=eventsForMapScope().find(e=>e.pref===focus.id&&e.muni);
-  const municipality=record&&tokyo.features.find(f=>f.id===record.muni);
-  if(municipality)bounds=municipality.bbox;
- }
- const [minLon,minLat,maxLon,maxLat]=bounds||[(x+w/2)/100,-(y+h/2)/100,(x+w/2)/100,-(y+h/2)/100];
- const cx=Math.max(0,Math.min(1,((minLon+maxLon)*50-x)/w));
- const cy=Math.max(0,Math.min(1,(-(minLat+maxLat)*50-y)/h));
- const left=viewport.scrollWidth*cx-viewport.clientWidth/2;
- const top=viewport.scrollHeight*cy-viewport.clientHeight/2;
- viewport.scrollLeft=Math.max(0,left);
- viewport.scrollTop=Math.max(0,top);
+ root.append(container);
 }
 function draw(){
- const colorsByRegion=new Map(); // Shared by main map and inset during this draw only.
- const canvas=$("map-canvas");
- const oldViewport=canvas.querySelector(".map-viewport");
- const previous=oldViewport?{key:oldViewport.dataset.mapKey,left:oldViewport.scrollLeft,top:oldViewport.scrollTop}:null;
- canvas.replaceChildren();
+ const colorsByRegion=new Map();
+ const canvas=$("map-canvas");canvas.replaceChildren();
  if(state.pref==="13"){
-  $("map-heading").textContent="东京都 · 区市町村";
-  $("map-tip").textContent="这是第2级行政区地图。点击区域或使用区市町村列表；离岛通过下方分组切换，仍属于同一级地图。";
-  const box=viewboxes[state.view];
-  const features=tokyo.features.filter(f=>overlapping(f,box));
-  const svg=geometrySVG(features,box,"muni",colorsByRegion);
-  placeMapViewport(canvas,svg,"tokyo-"+state.view,features,box,"muni",previous);
+  $("map-heading").textContent="东京都 · 62区市町村";
+  $("map-tip").textContent="选择23区・多摩、伊豆诸岛或小笠原诸岛，点击方块查看已有记录；各区块为示意排列。";
+  drawTokyoBoard(canvas,colorsByRegion);
   $("municipality-field").hidden=false;$("island-tabs").hidden=false;
-  $("drill-note").textContent="2025年边界简化原型；地图保留区市町村真实单位，所选日期仅新宿区有一条示例。部分极小岛屿需通过地区列表选择。";
+  $("drill-note").textContent="东京共62个区市町村：23区、30个多摩市町村及9个岛屿市町村。分组不代表新增行政层级。";
  }else{
   $("map-heading").textContent="全国47都道府县";
-  $("map-tip").textContent=state.pref==="all"?(state.region==="other"?"当前范围为其他地区（不含东京）。点击具体府县可以切换范围。":"点击任一都道府县，或使用下方列表。紫／粉／蓝／白四色之一代表当前已有演示记录。"):"已选择"+(prefectures.features.find(f=>f.id===state.pref)?.name||"地区")+"。本轮只制作东京都二级地图。";
-  const features=prefectures.features.filter(f=>overlapping(f,viewboxes.national));
-  const svg=geometrySVG(features,viewboxes.national,"pref",colorsByRegion);svg.classList.add("main-japan");
-  placeMapViewport(canvas,svg,"national",features,viewboxes.national,"pref",previous);
-  const inset=text("div","","inset");inset.append(text("p","冲绳诸岛 · 缩略图"));
-  inset.append(geometrySVG(prefectures.features.filter(f=>f.id==="47"),viewboxes.okinawa,"pref",colorsByRegion));
-  canvas.append(inset);
+  $("map-tip").textContent=state.pref==="all"?
+   (state.region==="other"?"当前从日历继承“其他地区”筛选，不显示东京的记录；点选具体府县后恢复该府县的独立查看。":"桌面端方块按大致地理方位排列；手机端按地方分组，点击任一方块查看活动。"):
+   "已选择"+(prefById(state.pref)?.name||"地区")+"。仅东京都开放第二级区市町村示意图。";
+  drawPrefectureBoard(canvas,colorsByRegion);
   $("municipality-field").hidden=true;$("island-tabs").hidden=true;
-  $("drill-note").textContent="全国地图为便于浏览的简化示意。冲绳使用单独缩略窗，极小岛屿可通过地区列表选择；只有东京都开放二级地图。";
+  $("drill-note").textContent="全国47都道府县均可选择；其他46府县尚未开放市区町村二级视图。";
  }
  $("back").hidden=state.pref==="all";
  $("prefecture").options[0].textContent=state.pref==="all"&&state.region==="other"?"其他地区（不含东京）":"全国（所有都道府县）";
- $("prefecture").value=state.pref;
- $("municipality").value=state.muni;
- for(const btn of document.querySelectorAll("#island-tabs button"))btn.setAttribute("aria-pressed",String(btn.dataset.view===state.view));
+ $("prefecture").value=state.pref;$("municipality").value=state.muni;
+ for(const button of document.querySelectorAll("#island-tabs button"))button.setAttribute("aria-pressed",String(button.dataset.view===state.view));
 }
 function archiveUrl(){
- const q=new URLSearchParams({month:String(state.month),mode:state.mode,date:state.date});
+ const p=new URLSearchParams({month:String(state.month),mode:state.mode,date:state.date});
  const region=state.pref==="all"?state.region:regionFromPref(state.pref);
- if(region!=="all")q.set("region",region);
- if(state.category!=="all")q.set("category",state.category);
- return "./archive.html?"+q.toString();
+ if(region!=="all")p.set("region",region);
+ if(state.category!=="all")p.set("category",state.category);
+ return "./archive.html?"+p.toString();
 }
 function drawEvents(){
- const all=eventsForMapScope(),found=all.filter(e=>(state.pref==="all"||e.pref===state.pref)&&(state.pref!=="13"||state.muni==="all"||e.muni===state.muni));
+ const found=eventsForMapScope().filter(e=>
+  (state.pref==="all"||e.pref===state.pref)&&
+  (state.pref!=="13"||state.muni==="all"||e.muni===state.muni));
  $("count").textContent=found.length+"条演示记录";
- const name=state.pref==="all"?(state.region==="other"?"其他地区（不含东京）":"全国"):prefectures.features.find(f=>f.id===state.pref)?.name||"未知地区";
- const sub=state.pref==="13"&&state.muni!=="all"?" · "+tokyo.features.find(f=>f.id===state.muni)?.name:"";
- $("selection").textContent=(state.mode==="month"?"2026年"+state.month+"月":state.date.replace(/-/g,"/"))+" · "+name+sub+" · "+(state.category==="staff_talk"?"制作人员座谈":state.category==="other"?"其他类型":"所有类型");
+ const name=state.pref==="all"?(state.region==="other"?"其他地区（不含东京）":"全国"):prefById(state.pref)?.name||"未知地区";
+ const sub=state.pref==="13"&&state.muni!=="all"?" · "+muniById(state.muni)?.name:"";
+ $("selection").textContent=(state.mode==="month"?"2026年"+state.month+"月":state.date.replace(/-/g,"/"))+
+  " · "+name+sub+" · "+(state.category==="staff_talk"?"制作人员座谈":state.category==="other"?"其他类型":"所有类型");
  const root=$("events");root.replaceChildren();
  if(!found.length){
-  const box=text("div","","empty");box.append(text("strong","当前条件下暂无已收录的演示活动"),text("span","不代表这一日期或这个地方在2026年没有举办相关活动。"));root.append(box);
+  const el=text("div","","empty");
+  el.append(text("strong","当前条件下暂无已收录的演示活动"),text("span","不代表这一日期或这个地区在2026年没有举办相关活动。"));
+  root.append(el);
  }else{
   for(const e of found){
-   const card=text("article","","event"),top=text("div","✦ 2026年的活动足迹 · 演示档案","event-head"),content=text("div","","event-body");
-   content.append(text("h3",e.title),text("p","📅 "+e.start+(e.end!==e.start?" ～ "+e.end:"")),text("p","📍 "+e.regionName+" · "+e.venue),text("p","类别："+e.categoryName),text("p",e.note));
-   const query=getQuery();query.set("id",e.id);query.set("from","map");
-   const link=text("a","查看活动纪念册 →","event-detail");link.href="./event.html?"+query.toString();
-   content.append(link);
-   card.append(top,content);root.append(card);
+   const card=text("article","","event"),top=text("div","✦ 2026年的活动足迹 · 演示档案","event-head"),body=text("div","","event-body");
+   body.append(text("h3",e.title),text("p","📅 "+e.start+(e.end!==e.start?" ～ "+e.end:"")),
+    text("p","📍 "+e.regionName+" · "+e.venue),text("p","类别："+e.categoryName),text("p",e.note));
+   const q=getQuery();q.set("id",e.id);q.set("from","map");
+   const link=text("a","查看活动纪念册 →","event-detail");link.href="./event.html?"+q.toString();
+   body.append(link);card.append(top,body);root.append(card);
   }
  }
- // Keep the calendar-supported filters; exact non-Tokyo prefecture/ward granularity cannot be represented there.
  const back=new URLSearchParams({month:String(state.month),mode:state.mode,date:state.date});
  if(state.region!=="all")back.set("region",state.region);
  if(state.category!=="all")back.set("category",state.category);
  $("calendar-link").href="./index.html?"+back.toString();
  $("calendar-return").href=$("calendar-link").href;
  $("archive-return").href=archiveUrl();
- $("archive-granularity-note").hidden=!(state.pref!=="all"&&(state.pref!=="13"||state.muni!=="all"));
- $("granularity-note").hidden=!(state.pref!=="all"&&(state.pref!=="13"||state.muni!=="all"));
+ const lossy=state.pref!=="all"&&(state.pref!=="13"||state.muni!=="all");
+ $("archive-granularity-note").hidden=!lossy;
+ $("granularity-note").hidden=!lossy;
 }
 function render(){
- $("month").value=String(state.month);
- $("category").value=state.category;
- $("date").value=state.date;
+ $("month").value=String(state.month);$("category").value=state.category;$("date").value=state.date;
  $("date-field").hidden=state.mode==="month";
  $("mode-day").setAttribute("aria-pressed",String(state.mode==="day"));
  $("mode-month").setAttribute("aria-pressed",String(state.mode==="month"));
  draw();drawEvents();
 }
 function initControls(){
- for(let m=1;m<=12;m++){const op=document.createElement("option");op.value=String(m);op.textContent=m+"月";$("month").append(op);}
- for(const p of prefectures.features){const op=document.createElement("option");op.value=p.id;op.textContent=p.name;$("prefecture").append(op);}
- for(const p of tokyo.features){const op=document.createElement("option");op.value=p.id;op.textContent=p.name;$("municipality").append(op);}
+ for(let m=1;m<=12;m++){const el=document.createElement("option");el.value=String(m);el.textContent=m+"月";$("month").append(el);}
+ for(const p of layout.prefectures.items){const el=document.createElement("option");el.value=p.id;el.textContent=p.name;$("prefecture").append(el);}
+ for(const p of layout.tokyo.items){const el=document.createElement("option");el.value=p.id;el.textContent=p.name;$("municipality").append(el);}
  $("month").addEventListener("change",e=>changeMonth(Number(e.target.value)));
  $("category").addEventListener("change",e=>{state.category=e.target.value;persist();render();});
  $("date").addEventListener("change",e=>{
   if(!validDate(e.target.value)){render();return;}
-  state.date=e.target.value;state.month=Number(e.target.value.slice(5,7));state.mode="day";persist();render();
+  state.date=e.target.value;state.month=Number(state.date.slice(5,7));state.mode="day";persist();render();
  });
  $("mode-day").addEventListener("click",()=>{state.mode="day";persist();render();});
  $("mode-month").addEventListener("click",()=>{state.mode="month";persist();render();});
  $("prefecture").addEventListener("change",e=>setPref(e.target.value));
  $("municipality").addEventListener("change",e=>setMuni(e.target.value));
  $("back").addEventListener("click",()=>setPref("all"));
- for(const btn of document.querySelectorAll("#island-tabs button"))btn.addEventListener("click",()=>{
-  state.view=btn.dataset.view;persist();render();
- });
+ for(const button of document.querySelectorAll("#island-tabs button")){
+  button.addEventListener("click",()=>{state.view=button.dataset.view;state.muni="all";persist();render();});
+ }
  window.addEventListener("popstate",()=>{
-  const p=new URLSearchParams(location.search),m=p.get("month");
-  state.month=validMonth(m)?Number(m):10;state.mode=p.get("mode")==="month"?"month":"day";
-  state.date=validDate(p.get("date"))?p.get("date"):dt(state.month,1);
+  const params=new URLSearchParams(location.search),month=params.get("month");
+  state.month=validMonth(month)?Number(month):10;
+  state.mode=params.get("mode")==="month"?"month":"day";
+  state.date=validDate(params.get("date"))?params.get("date"):dt(state.month,1);
   if(Number(state.date.slice(5,7))!==state.month)state.date=dt(state.month,1);
-  restoreLocationAndCategory(p);
-  render();
+  restoreLocationAndCategory(params);render();
  });
 }
 (async()=>{
  try{
-  const response=await Promise.all([
-    fetch("./data/map-prefectures-paths.json"),
-    fetch("./data/map-tokyo-paths.json"),
-    fetch("./data/events-demo.json")
-  ]);
-  if(response.some(r=>!r.ok))throw Error("地图或演示活动数据 HTTP 请求失败");
-  const [prefData,tokyoData,eventData]=await Promise.all(response.map(r=>r.json()));
-  prefectures=prefData;tokyo=tokyoData;
-  if(!Array.isArray(eventData.events)||eventData.events.some(e=>!e.id||!e.start||!e.end))throw Error("演示活动数据格式异常");
-  sample=eventData.events;
-  if(prefectures.features.length!==47||tokyo.features.length!==62)throw Error("地图行政单元数量异常");
-  normalizeRegion();initControls();render();
+  const result=await Promise.all([fetch("./data/map-schematic-layout.json"),fetch("./data/events-demo.json")]);
+  if(result.some(r=>!r.ok))throw Error("地图示意布局或演示活动资料 HTTP 请求失败");
+  const [schema,data]=await Promise.all(result.map(r=>r.json()));
+  if(schema.schemaVersion!==1||!Array.isArray(schema.prefectures?.items)||!Array.isArray(schema.tokyo?.items)||
+     schema.prefectures.items.length!==47||schema.tokyo.items.length!==62)throw Error("行政区示意布局数量或版本异常");
+  if(!Array.isArray(data.events)||data.events.some(e=>!e.id||!e.start||!e.end))throw Error("演示活动资料格式异常");
+  layout=schema;sample=data.events;
+  restoreLocationAndCategory(q);initControls();render();
  }catch(e){
-  $("map-canvas").replaceChildren(text("p","地图或演示活动数据加载失败。请确认 GitHub Pages 资源已部署，再刷新页面。"));
-  $("status").textContent="数据加载失败："+e.message;
+  $("map-canvas").replaceChildren(text("p","地图示意布局或演示资料加载失败，请刷新后重试。"));
+  $("status").textContent="数据加载失败："+e.message;console.error(e);
  }
 })();
 </script>
