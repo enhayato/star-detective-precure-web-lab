@@ -71,8 +71,8 @@ input:focus-visible,path:focus-visible { outline:3px solid var(--theme-purple-ac
 .detail-link:hover,.event-detail:hover,.map-pending:hover,.secondary-link:hover {
  background:#e9def4;
 }
-/* Map status: dark grey=no recorded example, purple=recorded example,
- * gold outline=current selection, not quantity. */
+/* Map status: dark grey=no recorded example; one of four colors=recorded.
+ * Gold outline marks every recorded region; selection thickens it. */
 .map-canvas { background:linear-gradient(140deg,var(--theme-blue-light),#f7f7fc); }
 .map-region { fill:var(--theme-no-record); }
 /* Every recorded region is independently assigned one of four motif colors.
