@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#faf9fc">
+<meta name="description" content="非官方《名探偵プリキュア！》2026年活动回忆档案馆：按日期、地区和已收录活动档案，重新发现这一年的活动足迹。">
+<title>首页｜探Q活动回忆档案馆</title>
+<style>
+:root{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Microsoft YaHei",system-ui,sans-serif;color:#2c3041;background:#faf9fc;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0;min-width:0}
+a{color:inherit}
+a:focus-visible{outline:3px solid #8751ad;outline-offset:3px}
+.site-header{background:#fff;border-bottom:1px solid #eee9f3}
+.head-inner{max-width:1180px;min-height:78px;margin:auto;padding:15px 25px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:#49345b;font-weight:850;font-size:18px}
+.brand-mark{display:grid;place-items:center;flex:0 0 43px;width:43px;height:43px;border-radius:13px;background:#9862bc;color:white;font-size:26px}
+.site-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.site-nav a,.site-nav span{padding:9px 12px;border-radius:10px;font-size:14px;font-weight:750}
+.site-nav a{text-decoration:none;background:#f1eaf7;color:#49345b}
+.site-nav span{color:#777182}
+main{max-width:1180px;margin:auto;padding:43px 25px 74px}
+.hero{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);gap:30px;align-items:stretch}
+.hero-copy{padding:36px 3px 26px 0;min-width:0}
+.eyebrow{display:inline-block;border-radius:30px;background:#f0e9f6;color:#704394;font-size:12px;font-weight:850;padding:7px 12px}
+h1{font-size:clamp(34px,4.8vw,57px);line-height:1.28;letter-spacing:.025em;color:#3c2d50;margin:21px 0 22px}
+h1 strong{color:#8250a8;font-weight:900}
+.lead{font-size:17px;line-height:2;color:#5f5d70;max-width:620px;margin:0}
+.hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:29px 0 0}
+.hero-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:12px;font-weight:850;text-decoration:none;font-size:14px}
+.hero-actions .primary{background:#8751ad;color:#fff;box-shadow:0 6px 15px #7549a032}
+.hero-actions .secondary{background:white;color:#644381;border:1px solid #dcd0e8}
+.hero-actions a:hover{transform:translateY(-1px)}
+.hero-side{border-radius:26px;background:linear-gradient(148deg,#f0e9f9,#fff9fd 48%,#eff9ff);border:1px solid #e8e0f0;padding:22px;min-width:0;position:relative;overflow:hidden}
+.hero-side::before{content:"";position:absolute;width:208px;height:208px;right:-92px;top:-102px;border:17px solid #ffffff88;border-radius:50%;pointer-events:none}
+.notebook{position:relative;height:100%;min-height:352px;border:1px solid #e8e0e5;border-left:7px solid #d8b764;border-radius:17px;background:#fff;box-shadow:0 16px 35px #47314a13;padding:24px 23px;transform:rotate(1deg)}
+.notebook-top{font-size:11px;font-weight:850;color:#87679b;letter-spacing:.16em;border-bottom:1px dashed #d8cde0;padding-bottom:17px}
+.notebook-title{margin:24px 0 12px;color:#4b375f;font-size:27px;line-height:1.5;font-weight:900}
+.notebook-sub{color:#6f6878;line-height:1.85;margin:0 0 20px;font-size:13px}
+.paper-steps{display:grid;gap:12px}
+.paper-step{display:flex;align-items:center;gap:13px;padding:11px 12px;border:1px solid #eeeaf2;border-radius:12px;background:#fbfafd;color:#51435f;font-weight:800;font-size:14px}
+.paper-step .step-icon{display:grid;place-items:center;width:36px;height:36px;flex:0 0 36px;border-radius:10px;background:#f1e5f7;color:#6e4792;font-size:19px}
+.paper-step:nth-child(2) .step-icon{background:#e8f5fe;color:#3974a0}
+.paper-step:nth-child(3) .step-icon{background:#fff0f6;color:#ad5c89}
+.paper-foot{font-size:11px;color:#98879f;letter-spacing:.1em;text-align:right;margin-top:24px}
+.section-head{margin:65px 0 19px;display:flex;align-items:end;justify-content:space-between;gap:20px}
+.section-head h2{font-size:clamp(22px,2.8vw,29px);color:#423253;margin:0}
+.section-head p{margin:0;color:#797184;font-size:13px;line-height:1.7}
+.entry-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.entry-card{position:relative;display:flex;flex-direction:column;min-width:0;min-height:239px;background:#fff;border:1px solid #e8e2ed;border-radius:20px;box-shadow:0 8px 20px #3c2a450a;padding:23px 22px;text-decoration:none}
+.entry-card:hover{box-shadow:0 13px 25px #5035631c;transform:translateY(-2px)}
+.entry-card.calendar{border-top:5px solid #9862bc}
+.entry-card.map{border-top:5px solid #8ec8ef}
+.entry-card.archive{border-top:5px solid #efa1cc}
+.entry-number{font-size:12px;font-weight:900;letter-spacing:.13em;color:#8c7898}
+.entry-icon{display:grid;place-items:center;width:46px;height:46px;border-radius:13px;background:#f3ecf9;color:#74459a;font-size:23px;margin:15px 0 13px}
+.entry-card.map .entry-icon{background:#ecf8ff;color:#3977a1}
+.entry-card.archive .entry-icon{background:#fff0f7;color:#ae5d8a}
+.entry-card h3{font-size:20px;color:#473658;margin:0 0 10px}
+.entry-card p{margin:0 0 18px;color:#6c687b;font-size:13px;line-height:1.85}
+.entry-link{margin-top:auto;font-size:13px;font-weight:900;color:#774a99}
+.entry-card.map .entry-link{color:#376f9d}
+.entry-card.archive .entry-link{color:#a35381}
+.status-note{margin-top:33px;border:1px solid #eadfee;border-radius:17px;background:linear-gradient(105deg,#fff,#fbf8fd);padding:20px 22px}
+.status-note h2{margin:0 0 9px;font-size:16px;color:#49345b}
+.status-note p{margin:0;font-size:13px;line-height:1.9;color:#6a6376}
+.status-note strong{color:#514264}
+.site-footer{max-width:1180px;margin:auto;padding:16px 25px 28px;color:#746f7d;font-size:12px;line-height:1.85}
+@media(max-width:900px){
+.hero{grid-template-columns:1fr;gap:18px}
+.hero-copy{padding:10px 0 15px}
+.hero-side{max-width:100%}
+.notebook{min-height:0;transform:none}
+.section-head{margin-top:43px}
+}
+@media(max-width:680px){
+.entry-grid{grid-template-columns:1fr}
+.entry-card{min-height:0}
+.section-head{display:block}
+.section-head p{margin-top:7px}
+}
+@media(max-width:560px){
+.head-inner{display:block;padding:14px 15px}.brand{font-size:16px}
+.site-nav{margin-top:12px;gap:5px}
+.site-nav a,.site-nav span{font-size:12px;padding:7px 9px}
+main{padding:27px 13px 45px}
+h1{font-size:clamp(29px,9vw,40px);margin:17px 0}
+.lead{font-size:15px}
+.hero-actions a{flex:1 1 150px}
+.hero-side{padding:13px;border-radius:19px}
+.notebook{padding:18px;border-radius:14px}
+.notebook-title{margin-top:17px;font-size:23px}
+.section-head{margin-top:38px}
+.entry-card{padding:19px}
+.status-note{padding:17px}
+.site-footer{padding:15px 14px 24px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;transform:none!important}}
+</style>
+<link rel="stylesheet" href="./assets/theme-v12.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="head-inner">
+    <a class="brand" href="./home.html" aria-label="探Q活动回忆档案馆首页"><span class="brand-mark" aria-hidden="true">⌕</span><span>探Q活动回忆档案馆</span></a>
+    <nav class="site-nav" aria-label="网站导航">
+      <a href="./home.html" aria-current="page">首页</a>
+      <a href="./index.html">活动日历</a>
+      <a href="./map.html">活动地图</a>
+      <a href="./archive.html">活动档案</a>
+      <span title="尚未开发">关于本站 · 开发中</span>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero" aria-labelledby="home-title">
+    <div class="hero-copy">
+      <span class="eyebrow">2026 · 名探偵プリキュア！ · 非官方粉丝档案</span>
+      <h1 id="home-title">这一年，探Q还在<strong>哪些地方</strong>留下过足迹？</h1>
+      <p class="lead">有些活动发生在你去过的城市，有些消息可能与你擦肩而过。这里把已收录的活动整理成日历、地图与档案，帮你重新发现2026年的探Q。</p>
+      <div class="hero-actions">
+        <a class="primary" href="./index.html">从活动日历开始 →</a>
+        <a class="secondary" href="./map.html">去活动地图看看 →</a>
+      </div>
+    </div>
+    <div class="hero-side" aria-hidden="true">
+      <div class="notebook">
+        <div class="notebook-top">DETECTIVE NOTES / 2026</div>
+        <div class="notebook-title">探Q活动回忆手账</div>
+        <p class="notebook-sub">从散落的日期、地点与活动记录中，慢慢拼出这一年的回忆。</p>
+        <div class="paper-steps">
+          <div class="paper-step"><span class="step-icon">▦</span>时间线索 · 日期</div>
+          <div class="paper-step"><span class="step-icon">⌖</span>空间线索 · 地区</div>
+          <div class="paper-step"><span class="step-icon">▤</span>活动线索 · 档案</div>
+        </div>
+        <div class="paper-foot">ARCHIVE IN PROGRESS ✦</div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="explore-title">
+    <div class="section-head">
+      <h2 id="explore-title">你想从哪里开始探索？</h2>
+      <p>三种入口，回看同一份已收录活动资料</p>
+    </div>
+    <div class="entry-grid">
+      <a class="entry-card calendar" href="./index.html">
+        <span class="entry-number">01 / DATE</span><span class="entry-icon" aria-hidden="true">▦</span>
+        <h3>按日期回看</h3>
+        <p>翻开2026年的日历，选择月份或某一天，看看那时有哪些已收录活动。</p>
+        <span class="entry-link">打开活动日历 →</span>
+      </a>
+      <a class="entry-card map" href="./map.html">
+        <span class="entry-number">02 / PLACE</span><span class="entry-icon" aria-hidden="true">⌖</span>
+        <h3>按地区探索</h3>
+        <p>在日本都道府县示意地图上挑选地区，寻找不同城市里的活动足迹。</p>
+        <span class="entry-link">打开活动地图 →</span>
+      </a>
+      <a class="entry-card archive" href="./archive.html">
+        <span class="entry-number">03 / FILE</span><span class="entry-icon" aria-hidden="true">▤</span>
+        <h3>浏览已收录档案</h3>
+        <p>使用日期、地区、类别与关键词筛选已收录记录，再进入活动纪念册查看详情。</p>
+        <span class="entry-link">打开活动档案 →</span>
+      </a>
+    </div>
+  </section>
+
+  <aside class="status-note" aria-labelledby="status-title">
+    <h2 id="status-title">关于目前的收录状态</h2>
+    <p>本站仍是建设中的<strong>非官方粉丝档案原型</strong>，尚未导入完整活动资料。目前页面只使用一条2026年10月15日新宿 Staff Talk 的演示记录，部分公开信息仍待正式核验。<strong>没有已收录记录，不代表当时、当地没有活动。</strong> 本站不提供活动预约、购票或实时导航。</p>
+  </aside>
+</main>
+<footer class="site-footer">探Q活动回忆档案馆 · 非官方粉丝制作。所有公开活动资料将按来源与使用权限逐项核查；本页面不使用未经授权的活动照片或官方角色素材。</footer>
+</body>
+</html>
