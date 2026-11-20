@@ -33,3 +33,10 @@
 4. 合并后按 PC 与 iPhone 验证单日／整月、日期及地区筛选、返回与刷新、直达详情和无匹配 ID、JSON 加载错误。
 
 记录于2026-11-20：首版纪念册原型与共享数据建立。本文件作为 GitHub 维护参考；不擅自修改研究库或 Google 历史设计文档。
+
+
+## 活动档案列表补充（PR #11 候选）
+
+新增 `archive.html` 仍读取相同的 `data/events-demo.json`，不增加演示记录或改变 schemaVersion。档案的「全年／整月／单日」依据 `start` 与 `end` 两端包含的日期区间筛选，地区使用 `prefecture=tokyo|other`；类别复用 `category`。关键词在 `title`、`venue`、`regionName`、`categoryName` 内查找。每个现有 JSON 条目绘制一张卡片；这**不是**正式活动／场次级别的去重制度。
+
+直达 `archive.html` 默认2026全年；从日历、地图传入 `mode=day|month`、`month`、`date`、`region` 和 `category` 时恢复过滤；列表内部 `q` 存储文本检索。纪念册新增 `from=archive` 受限返回来源，并在 URL 中保留列表可识别的筛选参数。地图具体行政区条件仅能转换为档案的粗地区，此精度变化须在地图页面提示。正式接入前仍应批准主活动／多场次模型及来源公开边界。

@@ -32,7 +32,7 @@ footer{max-width:1180px;margin:auto;padding:0 25px 30px;color:#766e81;font-size:
 <link rel="stylesheet" href="./assets/theme-v12.css">
 </head>
 <body>
-<header><div class="head-inner"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">⌕</span>探Q活动回忆档案馆</a><nav aria-label="网站导航"><a id="nav-calendar" href="./index.html">活动日历</a><a id="nav-map" href="./map.html">活动地图</a><span aria-current="page">活动纪念册</span></nav></div></header>
+<header><div class="head-inner"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">⌕</span>探Q活动回忆档案馆</a><nav aria-label="网站导航"><a id="nav-calendar" href="./index.html">活动日历</a><a id="nav-map" href="./map.html">活动地图</a><a id="nav-archive" href="./archive.html">活动档案</a><span aria-current="page">活动纪念册</span></nav></div></header>
 <main>
 <p class="breadcrumb"><a id="crumb-back" href="./index.html">活动日历</a> / 活动纪念册</p>
 <div id="error" class="error" role="status" hidden></div>
@@ -55,21 +55,24 @@ footer{max-width:1180px;margin:auto;padding:0 25px 30px;color:#766e81;font-size:
 "use strict";
 const $=id=>document.getElementById(id);
 const params=new URLSearchParams(location.search);
-const source=params.get("from")==="map"?"map":"calendar";
-const allowed=source==="map"?["month","mode","date","pref","muni","view","region","category"]:["month","mode","date","region","category"];
+const source=["map","archive"].includes(params.get("from"))?params.get("from"):"calendar";
+const allowed=source==="map"?["month","mode","date","pref","muni","view","region","category"]:
+ source==="archive"?["month","mode","date","region","category","q"]:
+ ["month","mode","date","region","category"];
 const back=new URLSearchParams();
 for(const key of allowed){const value=params.get(key);if(value!==null)back.set(key,value);}
-const target=source==="map"?"./map.html":"./index.html";
+const target=source==="map"?"./map.html":source==="archive"?"./archive.html":"./index.html";
 const backHref=target+(back.toString()?"?"+back.toString():"");
 $("return-link").href=backHref;
-$("return-link").textContent=source==="map"?"返回活动地图（保留筛选）":"返回活动日历（保留筛选）";
+$("return-link").textContent=source==="map"?"返回活动地图（保留筛选）":source==="archive"?"返回活动档案（保留筛选）":"返回活动日历（保留筛选）";
 $("crumb-back").href=backHref;
-$("crumb-back").textContent=source==="map"?"活动地图":"活动日历";
+$("crumb-back").textContent=source==="map"?"活动地图":source==="archive"?"活动档案":"活动日历";
 $("nav-calendar").href=source==="calendar"?backHref:"./index.html";
 $("nav-map").href=source==="map"?backHref:"./map.html";
+$("nav-archive").href=source==="archive"?backHref:"./archive.html";
 $("history-back").addEventListener("click",()=>{
  let canBack=false;
- try{const ref=new URL(document.referrer);const file=ref.pathname.split("/").pop();canBack=ref.origin===location.origin&&ref.pathname.startsWith("/star-detective-precure-web-lab/")&&["","index.html","map.html"].includes(file);}catch(_){}
+ try{const ref=new URL(document.referrer);const file=ref.pathname.split("/").pop();canBack=ref.origin===location.origin&&ref.pathname.startsWith("/star-detective-precure-web-lab/")&&["","index.html","map.html","archive.html"].includes(file);}catch(_){}
  if(canBack)history.back();else location.assign(backHref);
 });
 function showError(message){$("error").textContent=message;$("error").hidden=false;$("record").hidden=true;}

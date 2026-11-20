@@ -87,7 +87,7 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
 <body>
 <header><div class="header-inner">
   <a class="logo" href="./index.html"><span class="logo-symbol" aria-hidden="true">⌕</span>探Q活动回忆档案馆</a>
-  <nav aria-label="导航"><a id="calendar-link" href="./index.html">活动日历</a><a href="./map.html" aria-current="page">活动地图</a><span>纪念册 · 从活动卡片进入</span></nav>
+  <nav aria-label="导航"><a id="calendar-link" href="./index.html">活动日历</a><a href="./map.html" aria-current="page">活动地图</a><a href="./archive.html">活动档案</a><span>纪念册 · 从活动卡片进入</span></nav>
 </div></header>
 <main>
  <span class="eyebrow">2026 · 地域回忆 · 地图原型</span>
@@ -127,6 +127,8 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
      <div class="events" id="events" aria-live="polite"></div>
      <div class="divider"></div>
      <a class="secondary-link" id="calendar-return" href="./index.html">返回日历查看当前筛选</a>
+     <a class="secondary-link" id="archive-return" href="./archive.html" style="margin-top:10px">在档案列表查看当前筛选</a>
+     <p class="status" id="archive-granularity-note" hidden>档案列表目前只支持“东京都／其他地区”粗粒度筛选，具体府县或东京区市町村条件会扩大到对应地区。</p>
      <p class="status" id="granularity-note" hidden>日历目前只支持“东京都／其他地区”两类地区筛选。返回日历后会保留日期和类型，但具体府县或区市町村筛选会合并为对应的大区。</p>
      <p class="status" id="status">演示版 · 未接入正式研究数据库</p>
    </aside>
@@ -266,6 +268,13 @@ function draw(){
  $("municipality").value=state.muni;
  for(const btn of document.querySelectorAll("#island-tabs button"))btn.setAttribute("aria-pressed",String(btn.dataset.view===state.view));
 }
+function archiveUrl(){
+ const q=new URLSearchParams({month:String(state.month),mode:state.mode,date:state.date});
+ const region=state.pref==="all"?state.region:regionFromPref(state.pref);
+ if(region!=="all")q.set("region",region);
+ if(state.category!=="all")q.set("category",state.category);
+ return "./archive.html?"+q.toString();
+}
 function drawEvents(){
  const all=eventsInRange(),found=all.filter(e=>(state.pref==="all"||e.pref===state.pref)&&(state.pref!=="13"||state.muni==="all"||e.muni===state.muni));
  $("count").textContent=found.length+"条演示记录";
@@ -291,6 +300,8 @@ function drawEvents(){
  if(state.category!=="all")back.set("category",state.category);
  $("calendar-link").href="./index.html?"+back.toString();
  $("calendar-return").href=$("calendar-link").href;
+ $("archive-return").href=archiveUrl();
+ $("archive-granularity-note").hidden=!(state.pref!=="all"&&(state.pref!=="13"||state.muni!=="all"));
  $("granularity-note").hidden=!(state.pref!=="all"&&(state.pref!=="13"||state.muni!=="all"));
 }
 function render(){
