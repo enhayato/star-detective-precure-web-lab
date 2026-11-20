@@ -40,6 +40,8 @@ h1{font-size:clamp(25px,3vw,35px);margin:12px 0 9px}
 .map-tip{font-size:13px;line-height:1.7;color:#716e7c;margin:12px 0 15px}
 .map-canvas{border-radius:17px;background:linear-gradient(140deg,#faf9fe,#f3f4fa);padding:12px;overflow:hidden}
 .map-canvas svg{display:block;width:100%;height:auto;touch-action:manipulation}
+.map-viewport{min-width:0}
+.map-mobile-tip{display:none}
 .main-japan{max-height:610px}
 .inset{max-width:235px;margin:0 0 0 auto;background:#fff;border:1px solid #e6dfef;border-radius:12px;padding:8px 10px}
 .inset svg{max-height:110px}
@@ -80,6 +82,23 @@ h1{font-size:clamp(25px,3vw,35px);margin:12px 0 9px}
 footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-height:1.8;color:#716f7a}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.panel.result{order:2}}
 @media(max-width:560px){.header-inner{display:block;padding:14px 15px}.logo{font-size:16px}nav{margin-top:12px;gap:5px}nav a,nav span{font-size:12px;padding:7px 9px}main{padding:24px 12px 45px}.field{flex:1 1 145px;min-width:0}.field select,.field input{width:100%}.mode{width:100%;display:grid;grid-template-columns:1fr 1fr}.panel{padding:14px;border-radius:16px}.map-canvas{padding:7px}.region-controls{grid-template-columns:1fr}.map-title h2{font-size:18px}.map-tip{font-size:12px}.tabs{gap:5px}.tabs button{font-size:11px;padding:8px}}
+/* On narrow phones, preserve readable admin areas by enlarging the SVG inside a native touch-scroll viewport.
+   Do not scale the map's actual geographic paths, or change the desktop full-map presentation. */
+@media(max-width:560px){
+ .map-viewport{
+  overflow:auto;
+  max-height:65vh;
+  max-height:65dvh;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  border:1px solid #e6dfef;
+  border-radius:12px;
+ }
+ .map-viewport > svg{width:255vw;min-width:960px;max-width:none;max-height:none}
+ .map-viewport > svg.main-japan{width:200vw;min-width:760px;max-width:none;max-height:none}
+ .map-mobile-tip{display:block;font-size:12px;line-height:1.7;color:#716e7c;margin:10px 0 4px}
+}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 <link rel="stylesheet" href="./assets/theme-v12.css">
@@ -108,6 +127,7 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
      <div class="map-title"><h2 id="map-heading">全国47都道府县</h2><button type="button" id="back" hidden>返回全国</button></div>
      <p class="map-tip" id="map-tip">点击都道府县查看，或者使用下方地区选择器。四色之一的区域代表当前已有示例记录。</p>
      <div class="map-canvas" id="map-canvas" aria-label="行政区地图"><p>正在载入地图边界……</p></div>
+     <p class="map-mobile-tip">手机端已放大地图，可在地图内用手指左右、上下滑动查看。也可使用下方地区选择器。</p>
      <div class="region-controls">
        <label>都道府县<select id="prefecture"><option value="all">全国（所有都道府县）</option></select></label>
        <label id="municipality-field" hidden>东京都区市町村<select id="municipality"><option value="all">东京都全域</option></select></label>
@@ -191,13 +211,21 @@ function changeMonth(m){if(m<1||m>12)return;state.month=m;state.date=dt(m,1);per
 function eventsInRange(){
  const end=state.mode==="month"?dt(state.month,new Date(2026,state.month,0).getDate()):state.date;
  const start=state.mode==="month"?dt(state.month,1):state.date;
+ // Time and category determine each area's record color; clicking another area
+ // must not erase a recorded area from the map.
  return sample.filter(x=>x.start<=end&&x.end>=start&&
-  (state.category==="all"||x.category===state.category)&&
-  (state.region!=="other"||x.pref!=="13"));
+  (state.category==="all"||x.category===state.category));
+}
+function eventsForMapScope(){
+ // Only the explicit "other regions" whole-map view inherited from the
+ // calendar narrows nationwide highlights. Selecting a specific prefecture
+ // changes the preview, not other prefectures' recorded status.
+ const found=eventsInRange();
+ return state.pref==="all"&&state.region==="other"
+  ?found.filter(x=>x.pref!=="13"):found;
 }
 function hasEvent(featureId,level){
- const found=eventsInRange();
- return found.some(e=>level==="pref"?e.pref===featureId:e.muni===featureId);
+ return eventsForMapScope().some(e=>level==="pref"?e.pref===featureId:e.muni===featureId);
 }
 // Each draw() has a fresh color map: draw same region consistently, redraw to pick again.
 // Colors have no event-count or administrative meaning and are never persisted.
@@ -239,23 +267,60 @@ function overlapping(f,b){
  return minx<=lonMax&&maxx>=lonMin&&miny<=latMax&&maxy>=latMin;
 }
 function text(tag,value,className){const el=document.createElement(tag);el.textContent=value;if(className)el.className=className;return el;}
+function placeMapViewport(canvas,svg,key,features,vbox,level,previous){
+ const viewport=text("div","","map-viewport");
+ viewport.dataset.mapKey=key;
+ viewport.append(svg);
+ canvas.append(viewport);
+ // A redraw keeps the user's current scroll position on the same geographic view.
+ if(previous&&previous.key===key){
+  viewport.scrollLeft=previous.left;
+  viewport.scrollTop=previous.top;
+  return;
+ }
+ // On first arrival to a view, center a selected/recorded administrative region
+ // so the zoomed iPhone view opens on useful geography instead of empty sea.
+ const selected=features.find(f=>level==="pref"?state.pref===f.id:state.muni===f.id);
+ const focus=selected||features.find(f=>hasEvent(f.id,level));
+ const [x,y,w,h]=vbox.split(" ").map(Number);
+ let bounds=focus?focus.bbox:null;
+ // Tokyo prefecture's aggregate bbox includes remote Pacific islands, whose
+ // midpoint falls far from mainland Tokyo. Prefer a recorded municipality
+ // for the initial phone focus when one is available.
+ if(level==="pref"&&focus){
+  const record=eventsForMapScope().find(e=>e.pref===focus.id&&e.muni);
+  const municipality=record&&tokyo.features.find(f=>f.id===record.muni);
+  if(municipality)bounds=municipality.bbox;
+ }
+ const [minLon,minLat,maxLon,maxLat]=bounds||[(x+w/2)/100,-(y+h/2)/100,(x+w/2)/100,-(y+h/2)/100];
+ const cx=Math.max(0,Math.min(1,((minLon+maxLon)*50-x)/w));
+ const cy=Math.max(0,Math.min(1,(-(minLat+maxLat)*50-y)/h));
+ const left=viewport.scrollWidth*cx-viewport.clientWidth/2;
+ const top=viewport.scrollHeight*cy-viewport.clientHeight/2;
+ viewport.scrollLeft=Math.max(0,left);
+ viewport.scrollTop=Math.max(0,top);
+}
 function draw(){
  const colorsByRegion=new Map(); // Shared by main map and inset during this draw only.
- const canvas=$("map-canvas");canvas.replaceChildren();
+ const canvas=$("map-canvas");
+ const oldViewport=canvas.querySelector(".map-viewport");
+ const previous=oldViewport?{key:oldViewport.dataset.mapKey,left:oldViewport.scrollLeft,top:oldViewport.scrollTop}:null;
+ canvas.replaceChildren();
  if(state.pref==="13"){
   $("map-heading").textContent="东京都 · 区市町村";
   $("map-tip").textContent="这是第2级行政区地图。点击区域或使用区市町村列表；离岛通过下方分组切换，仍属于同一级地图。";
   const box=viewboxes[state.view];
   const features=tokyo.features.filter(f=>overlapping(f,box));
   const svg=geometrySVG(features,box,"muni",colorsByRegion);
-  canvas.append(svg);
+  placeMapViewport(canvas,svg,"tokyo-"+state.view,features,box,"muni",previous);
   $("municipality-field").hidden=false;$("island-tabs").hidden=false;
   $("drill-note").textContent="2025年边界简化原型；地图保留区市町村真实单位，所选日期仅新宿区有一条示例。部分极小岛屿需通过地区列表选择。";
  }else{
   $("map-heading").textContent="全国47都道府县";
   $("map-tip").textContent=state.pref==="all"?(state.region==="other"?"当前范围为其他地区（不含东京）。点击具体府县可以切换范围。":"点击任一都道府县，或使用下方列表。紫／粉／蓝／白四色之一代表当前已有演示记录。"):"已选择"+(prefectures.features.find(f=>f.id===state.pref)?.name||"地区")+"。本轮只制作东京都二级地图。";
   const features=prefectures.features.filter(f=>overlapping(f,viewboxes.national));
-  const svg=geometrySVG(features,viewboxes.national,"pref",colorsByRegion);svg.classList.add("main-japan");canvas.append(svg);
+  const svg=geometrySVG(features,viewboxes.national,"pref",colorsByRegion);svg.classList.add("main-japan");
+  placeMapViewport(canvas,svg,"national",features,viewboxes.national,"pref",previous);
   const inset=text("div","","inset");inset.append(text("p","冲绳诸岛 · 缩略图"));
   inset.append(geometrySVG(prefectures.features.filter(f=>f.id==="47"),viewboxes.okinawa,"pref",colorsByRegion));
   canvas.append(inset);
@@ -276,7 +341,7 @@ function archiveUrl(){
  return "./archive.html?"+q.toString();
 }
 function drawEvents(){
- const all=eventsInRange(),found=all.filter(e=>(state.pref==="all"||e.pref===state.pref)&&(state.pref!=="13"||state.muni==="all"||e.muni===state.muni));
+ const all=eventsForMapScope(),found=all.filter(e=>(state.pref==="all"||e.pref===state.pref)&&(state.pref!=="13"||state.muni==="all"||e.muni===state.muni));
  $("count").textContent=found.length+"条演示记录";
  const name=state.pref==="all"?(state.region==="other"?"其他地区（不含东京）":"全国"):prefectures.features.find(f=>f.id===state.pref)?.name||"未知地区";
  const sub=state.pref==="13"&&state.muni!=="all"?" · "+tokyo.features.find(f=>f.id===state.muni)?.name:"";
