@@ -1,0 +1,803 @@
+{
+  "schemaVersion": 1,
+  "description": "2026年活动回忆档案馆示意方块布局；方块位置仅是近似地理方位，不是真实行政边界、面积、相邻关系或导航地图",
+  "prefectures": {
+    "columns": 15,
+    "rows": 14,
+    "groups": [
+      {
+        "id": "north",
+        "name": "北海道・东北"
+      },
+      {
+        "id": "kanto",
+        "name": "关东"
+      },
+      {
+        "id": "chubu",
+        "name": "中部"
+      },
+      {
+        "id": "kansai",
+        "name": "近畿"
+      },
+      {
+        "id": "chugoku",
+        "name": "中国地方"
+      },
+      {
+        "id": "shikoku",
+        "name": "四国"
+      },
+      {
+        "id": "kyushu",
+        "name": "九州"
+      },
+      {
+        "id": "okinawa",
+        "name": "冲绳"
+      }
+    ],
+    "items": [
+      {
+        "id": "01",
+        "name": "北海道",
+        "group": "north",
+        "col": 13,
+        "row": 1,
+        "w": 3,
+        "h": 2
+      },
+      {
+        "id": "02",
+        "name": "青森県",
+        "group": "north",
+        "col": 13,
+        "row": 3,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "03",
+        "name": "岩手県",
+        "group": "north",
+        "col": 14,
+        "row": 4,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "04",
+        "name": "宮城県",
+        "group": "north",
+        "col": 14,
+        "row": 5,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "05",
+        "name": "秋田県",
+        "group": "north",
+        "col": 13,
+        "row": 4,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "06",
+        "name": "山形県",
+        "group": "north",
+        "col": 13,
+        "row": 5,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "07",
+        "name": "福島県",
+        "group": "north",
+        "col": 14,
+        "row": 6,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "08",
+        "name": "茨城県",
+        "group": "kanto",
+        "col": 15,
+        "row": 8,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "09",
+        "name": "栃木県",
+        "group": "kanto",
+        "col": 14,
+        "row": 7,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "10",
+        "name": "群馬県",
+        "group": "kanto",
+        "col": 13,
+        "row": 7,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "11",
+        "name": "埼玉県",
+        "group": "kanto",
+        "col": 13,
+        "row": 8,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "12",
+        "name": "千葉県",
+        "group": "kanto",
+        "col": 15,
+        "row": 9,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "13",
+        "name": "東京都",
+        "group": "kanto",
+        "col": 14,
+        "row": 8,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "14",
+        "name": "神奈川県",
+        "group": "kanto",
+        "col": 14,
+        "row": 9,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "15",
+        "name": "新潟県",
+        "group": "chubu",
+        "col": 12,
+        "row": 6,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "16",
+        "name": "富山県",
+        "group": "chubu",
+        "col": 10,
+        "row": 7,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "17",
+        "name": "石川県",
+        "group": "chubu",
+        "col": 9,
+        "row": 7,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "18",
+        "name": "福井県",
+        "group": "chubu",
+        "col": 8,
+        "row": 8,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "19",
+        "name": "山梨県",
+        "group": "chubu",
+        "col": 12,
+        "row": 8,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "20",
+        "name": "長野県",
+        "group": "chubu",
+        "col": 12,
+        "row": 7,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "21",
+        "name": "岐阜県",
+        "group": "chubu",
+        "col": 10,
+        "row": 8,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "22",
+        "name": "静岡県",
+        "group": "chubu",
+        "col": 12,
+        "row": 9,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "23",
+        "name": "愛知県",
+        "group": "chubu",
+        "col": 11,
+        "row": 9,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "24",
+        "name": "三重県",
+        "group": "kansai",
+        "col": 10,
+        "row": 10,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "25",
+        "name": "滋賀県",
+        "group": "kansai",
+        "col": 9,
+        "row": 9,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "26",
+        "name": "京都府",
+        "group": "kansai",
+        "col": 8,
+        "row": 9,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "27",
+        "name": "大阪府",
+        "group": "kansai",
+        "col": 8,
+        "row": 10,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "28",
+        "name": "兵庫県",
+        "group": "kansai",
+        "col": 7,
+        "row": 9,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "29",
+        "name": "奈良県",
+        "group": "kansai",
+        "col": 9,
+        "row": 10,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "30",
+        "name": "和歌山県",
+        "group": "kansai",
+        "col": 9,
+        "row": 11,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "31",
+        "name": "鳥取県",
+        "group": "chugoku",
+        "col": 6,
+        "row": 9,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "32",
+        "name": "島根県",
+        "group": "chugoku",
+        "col": 5,
+        "row": 9,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "33",
+        "name": "岡山県",
+        "group": "chugoku",
+        "col": 6,
+        "row": 10,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "34",
+        "name": "広島県",
+        "group": "chugoku",
+        "col": 5,
+        "row": 10,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "35",
+        "name": "山口県",
+        "group": "chugoku",
+        "col": 4,
+        "row": 10,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "36",
+        "name": "徳島県",
+        "group": "shikoku",
+        "col": 7,
+        "row": 12,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "37",
+        "name": "香川県",
+        "group": "shikoku",
+        "col": 7,
+        "row": 11,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "38",
+        "name": "愛媛県",
+        "group": "shikoku",
+        "col": 5,
+        "row": 12,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "39",
+        "name": "高知県",
+        "group": "shikoku",
+        "col": 6,
+        "row": 12,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "40",
+        "name": "福岡県",
+        "group": "kyushu",
+        "col": 3,
+        "row": 10,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "41",
+        "name": "佐賀県",
+        "group": "kyushu",
+        "col": 2,
+        "row": 11,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "42",
+        "name": "長崎県",
+        "group": "kyushu",
+        "col": 1,
+        "row": 11,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "43",
+        "name": "熊本県",
+        "group": "kyushu",
+        "col": 3,
+        "row": 11,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "44",
+        "name": "大分県",
+        "group": "kyushu",
+        "col": 4,
+        "row": 11,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "45",
+        "name": "宮崎県",
+        "group": "kyushu",
+        "col": 4,
+        "row": 12,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "46",
+        "name": "鹿児島県",
+        "group": "kyushu",
+        "col": 3,
+        "row": 13,
+        "w": 1,
+        "h": 1
+      },
+      {
+        "id": "47",
+        "name": "沖縄県",
+        "group": "okinawa",
+        "col": 1,
+        "row": 14,
+        "w": 1,
+        "h": 1
+      }
+    ]
+  },
+  "tokyo": {
+    "groups": [
+      {
+        "id": "wards",
+        "name": "东京23区",
+        "view": "mainland"
+      },
+      {
+        "id": "tama",
+        "name": "多摩地区（26市・3町・1村）",
+        "view": "mainland"
+      },
+      {
+        "id": "izu",
+        "name": "伊豆诸岛",
+        "view": "izu"
+      },
+      {
+        "id": "ogasawara",
+        "name": "小笠原诸岛",
+        "view": "ogasawara"
+      }
+    ],
+    "items": [
+      {
+        "id": "13101",
+        "name": "千代田区",
+        "group": "wards"
+      },
+      {
+        "id": "13102",
+        "name": "中央区",
+        "group": "wards"
+      },
+      {
+        "id": "13103",
+        "name": "港区",
+        "group": "wards"
+      },
+      {
+        "id": "13104",
+        "name": "新宿区",
+        "group": "wards"
+      },
+      {
+        "id": "13105",
+        "name": "文京区",
+        "group": "wards"
+      },
+      {
+        "id": "13106",
+        "name": "台東区",
+        "group": "wards"
+      },
+      {
+        "id": "13107",
+        "name": "墨田区",
+        "group": "wards"
+      },
+      {
+        "id": "13108",
+        "name": "江東区",
+        "group": "wards"
+      },
+      {
+        "id": "13109",
+        "name": "品川区",
+        "group": "wards"
+      },
+      {
+        "id": "13110",
+        "name": "目黒区",
+        "group": "wards"
+      },
+      {
+        "id": "13111",
+        "name": "大田区",
+        "group": "wards"
+      },
+      {
+        "id": "13112",
+        "name": "世田谷区",
+        "group": "wards"
+      },
+      {
+        "id": "13113",
+        "name": "渋谷区",
+        "group": "wards"
+      },
+      {
+        "id": "13114",
+        "name": "中野区",
+        "group": "wards"
+      },
+      {
+        "id": "13115",
+        "name": "杉並区",
+        "group": "wards"
+      },
+      {
+        "id": "13116",
+        "name": "豊島区",
+        "group": "wards"
+      },
+      {
+        "id": "13117",
+        "name": "北区",
+        "group": "wards"
+      },
+      {
+        "id": "13118",
+        "name": "荒川区",
+        "group": "wards"
+      },
+      {
+        "id": "13119",
+        "name": "板橋区",
+        "group": "wards"
+      },
+      {
+        "id": "13120",
+        "name": "練馬区",
+        "group": "wards"
+      },
+      {
+        "id": "13121",
+        "name": "足立区",
+        "group": "wards"
+      },
+      {
+        "id": "13122",
+        "name": "葛飾区",
+        "group": "wards"
+      },
+      {
+        "id": "13123",
+        "name": "江戸川区",
+        "group": "wards"
+      },
+      {
+        "id": "13201",
+        "name": "八王子市",
+        "group": "tama"
+      },
+      {
+        "id": "13202",
+        "name": "立川市",
+        "group": "tama"
+      },
+      {
+        "id": "13203",
+        "name": "武蔵野市",
+        "group": "tama"
+      },
+      {
+        "id": "13204",
+        "name": "三鷹市",
+        "group": "tama"
+      },
+      {
+        "id": "13205",
+        "name": "青梅市",
+        "group": "tama"
+      },
+      {
+        "id": "13206",
+        "name": "府中市",
+        "group": "tama"
+      },
+      {
+        "id": "13207",
+        "name": "昭島市",
+        "group": "tama"
+      },
+      {
+        "id": "13208",
+        "name": "調布市",
+        "group": "tama"
+      },
+      {
+        "id": "13209",
+        "name": "町田市",
+        "group": "tama"
+      },
+      {
+        "id": "13210",
+        "name": "小金井市",
+        "group": "tama"
+      },
+      {
+        "id": "13211",
+        "name": "小平市",
+        "group": "tama"
+      },
+      {
+        "id": "13212",
+        "name": "日野市",
+        "group": "tama"
+      },
+      {
+        "id": "13213",
+        "name": "東村山市",
+        "group": "tama"
+      },
+      {
+        "id": "13214",
+        "name": "国分寺市",
+        "group": "tama"
+      },
+      {
+        "id": "13215",
+        "name": "国立市",
+        "group": "tama"
+      },
+      {
+        "id": "13218",
+        "name": "福生市",
+        "group": "tama"
+      },
+      {
+        "id": "13219",
+        "name": "狛江市",
+        "group": "tama"
+      },
+      {
+        "id": "13220",
+        "name": "東大和市",
+        "group": "tama"
+      },
+      {
+        "id": "13221",
+        "name": "清瀬市",
+        "group": "tama"
+      },
+      {
+        "id": "13222",
+        "name": "東久留米市",
+        "group": "tama"
+      },
+      {
+        "id": "13223",
+        "name": "武蔵村山市",
+        "group": "tama"
+      },
+      {
+        "id": "13224",
+        "name": "多摩市",
+        "group": "tama"
+      },
+      {
+        "id": "13225",
+        "name": "稲城市",
+        "group": "tama"
+      },
+      {
+        "id": "13227",
+        "name": "羽村市",
+        "group": "tama"
+      },
+      {
+        "id": "13228",
+        "name": "あきる野市",
+        "group": "tama"
+      },
+      {
+        "id": "13229",
+        "name": "西東京市",
+        "group": "tama"
+      },
+      {
+        "id": "13303",
+        "name": "瑞穂町",
+        "group": "tama"
+      },
+      {
+        "id": "13305",
+        "name": "日の出町",
+        "group": "tama"
+      },
+      {
+        "id": "13307",
+        "name": "檜原村",
+        "group": "tama"
+      },
+      {
+        "id": "13308",
+        "name": "奥多摩町",
+        "group": "tama"
+      },
+      {
+        "id": "13361",
+        "name": "大島町",
+        "group": "izu"
+      },
+      {
+        "id": "13362",
+        "name": "利島村",
+        "group": "izu"
+      },
+      {
+        "id": "13363",
+        "name": "新島村",
+        "group": "izu"
+      },
+      {
+        "id": "13364",
+        "name": "神津島村",
+        "group": "izu"
+      },
+      {
+        "id": "13381",
+        "name": "三宅村",
+        "group": "izu"
+      },
+      {
+        "id": "13382",
+        "name": "御蔵島村",
+        "group": "izu"
+      },
+      {
+        "id": "13401",
+        "name": "八丈町",
+        "group": "izu"
+      },
+      {
+        "id": "13402",
+        "name": "青ヶ島村",
+        "group": "izu"
+      },
+      {
+        "id": "13421",
+        "name": "小笠原村",
+        "group": "ogasawara"
+      }
+    ]
+  }
+}
