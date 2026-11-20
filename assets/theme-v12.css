@@ -75,14 +75,30 @@ input:focus-visible,path:focus-visible { outline:3px solid var(--theme-purple-ac
  * gold outline=current selection, not quantity. */
 .map-canvas { background:linear-gradient(140deg,var(--theme-blue-light),#f7f7fc); }
 .map-region { fill:var(--theme-no-record); }
-.map-region.has-record { fill:var(--theme-purple);filter:drop-shadow(0 0 4px #9862bc70); }
-.map-region.selected,.map-region.selected.has-record {
- stroke:var(--theme-gold);stroke-width:3px;
+/* Every recorded region is independently assigned one of four motif colors.
+ * Its gold border denotes a recorded region; selection makes that border stronger. */
+.map-region.has-record {
+ stroke:var(--theme-gold);
+ stroke-width:2.3px;
+ filter:drop-shadow(0 0 4px #9a783c88);
 }
-.map-region.selected.has-record { fill:#ad6dc4; }
+.map-region.has-record.record-purple { fill:var(--theme-purple); }
+.map-region.has-record.record-pink { fill:var(--theme-pink); }
+.map-region.has-record.record-blue { fill:var(--theme-blue); }
+.map-region.has-record.record-white { fill:var(--theme-white); }
+.map-region.selected { stroke:var(--theme-gold);stroke-width:3px; }
+.map-region.selected.has-record {
+ stroke:var(--theme-gold);
+ stroke-width:4px;
+ filter:drop-shadow(0 0 6px #997532b0);
+}
 .swatch.gray { background:var(--theme-no-record); }
-.swatch.lit { background:var(--theme-purple); }
-.swatch.chosen { background:var(--theme-no-record);border:2px solid var(--theme-gold); }
+.swatch.lit {
+ background:linear-gradient(90deg,var(--theme-purple) 0% 25%,var(--theme-pink) 25% 50%,var(--theme-blue) 50% 75%,var(--theme-white) 75% 100%);
+ border:2px solid var(--theme-gold);
+ width:30px;height:15px;box-shadow:none;
+}
+.swatch.chosen { background:var(--theme-no-record);border:3px solid var(--theme-gold); }
 .tabs button[aria-pressed="true"] {
  background:var(--theme-purple-action);border-color:var(--theme-purple-action);color:#fff;
 }

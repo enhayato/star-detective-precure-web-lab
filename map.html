@@ -118,7 +118,7 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
        <button type="button" data-view="ogasawara" aria-pressed="false">小笠原诸岛</button>
      </div>
      <p class="small-note" id="drill-note">本阶段仅开放东京都的真实区市町村二级地图。其他府县可选择，详情地图后续制作。</p>
-     <div class="legend"><span><i class="swatch gray"></i>当前无已收录记录</span><span><i class="swatch lit"></i>有已收录示例</span><span><i class="swatch chosen"></i>选中区域</span></div>
+     <div class="legend"><span><i class="swatch gray"></i>当前无已收录记录</span><span><i class="swatch lit"></i>有已收录示例（四色之一、金边）</span><span><i class="swatch chosen"></i>选中区域（金边加粗）</span></div>
      <p class="map-credits">边界来源：<a href="https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2025.html" target="_blank" rel="noopener noreferrer">国土交通省 国土数值情報 N03 2025年版</a>，经<a href="https://github.com/kyodo-official/japan-choropleth" target="_blank" rel="noopener noreferrer">共同通信 japan-choropleth</a>加工后，本项目进一步简化为网页用 SVG 路径。基准年为<strong>2025年</strong>，不是2026年行政边界；仅供非测量用途的视觉原型。许可证与测量法适用情况见 <a href="https://github.com/enhayato/star-detective-precure-web-lab/blob/main/docs/MAP_DATA.md" target="_blank" rel="noopener noreferrer">数据说明</a>。</p>
    </section>
    <aside class="panel result" aria-labelledby="event-heading">
@@ -197,6 +197,20 @@ function hasEvent(featureId,level){
  const found=eventsInRange();
  return found.some(e=>level==="pref"?e.pref===featureId:e.muni===featureId);
 }
+// Each region gets its own repeatable pseudo-random color: no redraw flicker and no event-count meaning.
+// The avalanche-mixed hash is keyed by administrative level and code (no external data or storage).
+function regionHighlightColor(id,level){
+ const colors=["purple","pink","blue","white"];
+ const key=level+":"+String(id);
+ let hash=2166136261;
+ for(let i=0;i<key.length;i++)hash=Math.imul(hash^key.charCodeAt(i),16777619);
+ hash^=hash>>>16;
+ hash=Math.imul(hash,0x7feb352d);
+ hash^=hash>>>15;
+ hash=Math.imul(hash,0x846ca68b);
+ hash^=hash>>>16;
+ return colors[(hash>>>0)%colors.length];
+}
 function geometrySVG(features,vbox,level){
  const svg=document.createElementNS(ns,"svg");
  svg.setAttribute("viewBox",vbox);
@@ -208,7 +222,7 @@ function geometrySVG(features,vbox,level){
   path.setAttribute("fill-rule","evenodd");
   const active=hasEvent(f.id,level);
   const selected=level==="pref"?state.pref===f.id:state.muni===f.id;
-  path.setAttribute("class","map-region"+(active?" has-record":"")+(selected?" selected":""));
+  path.setAttribute("class","map-region"+(active?" has-record record-"+regionHighlightColor(f.id,level):"")+(selected?" selected":""));
   path.setAttribute("role","button");
   path.setAttribute("tabindex","0");
   path.setAttribute("aria-label",f.name+"，"+(active?"有已收录演示活动":"暂无已收录演示活动"));
