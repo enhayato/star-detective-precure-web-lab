@@ -91,9 +91,10 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
  <h1>日本活动地图</h1>
  <p class="lead">从日本全国出发，发现2026年探Q曾经留下的活动足迹。</p>
  <p class="disclaimer">原型仅包含一条待正式公开核验的示例记录；彩色区域表示“当前筛选条件下有已收录示例”，不表示实际活动覆盖率。</p>
- <section class="filters" aria-label="时间条件">
+ <section class="filters" aria-label="时间与类型条件">
    <div class="field"><label for="month">月份（2026年）</label><select id="month"></select></div>
    <div class="field" id="date-field"><label for="date">具体日期</label><input id="date" type="date" min="2026-01-01" max="2026-12-31" value="2026-10-15"></div>
+   <div class="field"><label for="category">活动类型</label><select id="category"><option value="all">所有类型</option><option value="staff_talk">制作人员座谈</option><option value="other">其他类型</option></select></div>
    <div class="mode" aria-label="时间范围">
      <button id="mode-day" type="button" aria-pressed="true">单日</button>
      <button id="mode-month" type="button" aria-pressed="false">整月</button>
@@ -122,7 +123,8 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
      <p class="selection-summary" id="selection" aria-live="polite"></p>
      <div class="events" id="events" aria-live="polite"></div>
      <div class="divider"></div>
-     <a class="secondary-link" id="calendar-return" href="./index.html">返回日历查看日期</a>
+     <a class="secondary-link" id="calendar-return" href="./index.html">返回日历查看当前筛选</a>
+     <p class="status" id="granularity-note" hidden>日历目前只支持“东京都／其他地区”两类地区筛选。返回日历后会保留日期和类型，但具体府县或区市町村筛选会合并为对应的大区。</p>
      <p class="status" id="status">演示版 · 未接入正式研究数据库</p>
    </aside>
  </div>
@@ -131,12 +133,12 @@ footer{max-width:1220px;margin:auto;padding:0 25px 28px;font-size:12px;line-heig
 <script>
 "use strict";
 const ns="http://www.w3.org/2000/svg", $=id=>document.getElementById(id);
-const sample=[{id:"sample-staff-talk-20261015",dateStart:"2026-10-15",dateEnd:"2026-10-15",pref:"13",muni:"13104",title:"《映画名探偵プリキュア！》Staff Talk",place:"东京都新宿区 · 新宿バルト9",type:"制作人员座谈"}];
+const sample=[{id:"sample-staff-talk-20261015",dateStart:"2026-10-15",dateEnd:"2026-10-15",pref:"13",muni:"13104",title:"《映画名探偵プリキュア！》Staff Talk",place:"东京都新宿区 · 新宿バルト9",type:"制作人员座谈",category:"staff_talk"}];
 const q=new URLSearchParams(location.search);
 const validMonth=s=>/^(?:[1-9]|1[0-2])$/.test(String(s));
 const validDate=s=>typeof s==="string"&&/^2026-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(s)&&(()=>{const n=s.split("-").map(Number);return new Date(n[0],n[1]-1,n[2]).getMonth()===n[1]-1;})();
 const dt=(m,d)=>"2026-"+String(m).padStart(2,"0")+"-"+String(d).padStart(2,"0");
-const state={month:validMonth(q.get("month"))?Number(q.get("month")):10,mode:q.get("mode")==="month"?"month":"day",date:validDate(q.get("date"))?q.get("date"):"2026-10-15",pref:"all",muni:"all",view:"mainland"};
+const state={month:validMonth(q.get("month"))?Number(q.get("month")):10,mode:q.get("mode")==="month"?"month":"day",date:validDate(q.get("date"))?q.get("date"):"2026-10-15",pref:"all",muni:"all",view:"mainland",region:"all",category:"all"};
 if(Number(state.date.slice(5,7))!==state.month)state.date=dt(state.month,1);
 let prefectures=null,tokyo=null;
 const viewboxes={
@@ -146,23 +148,32 @@ const viewboxes={
  izu:"13830 -3510 212 314",
  ogasawara:"14040 -3090 1480 1080"
 };
-function normalizeRegion(){
- if(prefectures&&prefectures.features.some(p=>p.id===q.get("pref")))state.pref=q.get("pref");
- else state.pref="all";
- if(state.pref==="13"&&tokyo&&tokyo.features.some(p=>p.id===q.get("muni")))state.muni=q.get("muni");
- else state.muni="all";
- if(["mainland","izu","ogasawara"].includes(q.get("view")))state.view=q.get("view");
+function regionFromPref(pref){
+ return pref==="all"?"all":(pref==="13"?"tokyo":"other");
 }
+function restoreLocationAndCategory(params){
+ const requestedPref=params.get("pref");
+ state.pref=prefectures.features.some(f=>f.id===requestedPref)?requestedPref:"all";
+ // The calendar can express Tokyo or all non-Tokyo regions, not individual non-Tokyo prefectures.
+ if(state.pref==="all"&&params.get("region")==="tokyo")state.pref="13";
+ state.region=state.pref==="all"?(params.get("region")==="other"?"other":"all"):regionFromPref(state.pref);
+ state.muni=state.pref==="13"&&tokyo.features.some(f=>f.id===params.get("muni"))?params.get("muni"):"all";
+ state.view=["mainland","izu","ogasawara"].includes(params.get("view"))?params.get("view"):"mainland";
+ state.category=["all","staff_talk","other"].includes(params.get("category"))?params.get("category"):"all";
+}
+function normalizeRegion(){restoreLocationAndCategory(q);}
 function getQuery(){
  const a=new URLSearchParams({month:String(state.month),mode:state.mode,date:state.date});
  if(state.pref!=="all")a.set("pref",state.pref);
+ if(state.pref==="all"&&state.region==="other")a.set("region","other");
+ if(state.category!=="all")a.set("category",state.category);
  if(state.pref==="13"&&state.muni!=="all")a.set("muni",state.muni);
  if(state.pref==="13"&&state.view!=="mainland")a.set("view",state.view);
  return a;
 }
 function persist(){history.pushState(null,"",location.pathname+"?"+getQuery().toString());}
 function setPref(v){
- state.pref=v;state.muni="all";state.view="mainland";persist();render();
+ state.pref=v;state.region=regionFromPref(v);state.muni="all";state.view="mainland";persist();render();
 }
 function chooseViewForMunicipality(code){
  const feature=tokyo&&tokyo.features.find(f=>f.id===code);
@@ -175,7 +186,9 @@ function changeMonth(m){if(m<1||m>12)return;state.month=m;state.date=dt(m,1);per
 function eventsInRange(){
  const end=state.mode==="month"?dt(state.month,new Date(2026,state.month,0).getDate()):state.date;
  const start=state.mode==="month"?dt(state.month,1):state.date;
- return sample.filter(x=>x.dateStart<=end&&x.dateEnd>=start);
+ return sample.filter(x=>x.dateStart<=end&&x.dateEnd>=start&&
+  (state.category==="all"||x.category===state.category)&&
+  (state.region!=="other"||x.pref!=="13"));
 }
 function hasEvent(featureId,level){
  const found=eventsInRange();
@@ -224,7 +237,7 @@ function draw(){
   $("drill-note").textContent="2025年边界简化原型；地图保留区市町村真实单位，所选日期仅新宿区有一条示例。部分极小岛屿需通过地区列表选择。";
  }else{
   $("map-heading").textContent="全国47都道府县";
-  $("map-tip").textContent=state.pref==="all"?"点击任一都道府县，或使用下方列表。紫色代表当前已有演示记录。":"已选择"+(prefectures.features.find(f=>f.id===state.pref)?.name||"地区")+"。本轮只制作东京都二级地图。";
+  $("map-tip").textContent=state.pref==="all"?(state.region==="other"?"当前范围为其他地区（不含东京）。点击具体府县可以切换范围。":"点击任一都道府县，或使用下方列表。紫色代表当前已有演示记录。"):"已选择"+(prefectures.features.find(f=>f.id===state.pref)?.name||"地区")+"。本轮只制作东京都二级地图。";
   const features=prefectures.features.filter(f=>overlapping(f,viewboxes.national));
   const svg=geometrySVG(features,viewboxes.national,"pref");svg.classList.add("main-japan");canvas.append(svg);
   const inset=text("div","","inset");inset.append(text("p","冲绳诸岛 · 缩略图"));
@@ -234,6 +247,7 @@ function draw(){
   $("drill-note").textContent="全国地图为便于浏览的简化示意。冲绳使用单独缩略窗，极小岛屿可通过地区列表选择；只有东京都开放二级地图。";
  }
  $("back").hidden=state.pref==="all";
+ $("prefecture").options[0].textContent=state.pref==="all"&&state.region==="other"?"其他地区（不含东京）":"全国（所有都道府县）";
  $("prefecture").value=state.pref;
  $("municipality").value=state.muni;
  for(const btn of document.querySelectorAll("#island-tabs button"))btn.setAttribute("aria-pressed",String(btn.dataset.view===state.view));
@@ -241,9 +255,9 @@ function draw(){
 function drawEvents(){
  const all=eventsInRange(),found=all.filter(e=>(state.pref==="all"||e.pref===state.pref)&&(state.pref!=="13"||state.muni==="all"||e.muni===state.muni));
  $("count").textContent=found.length+"条演示记录";
- const name=state.pref==="all"?"全国":prefectures.features.find(f=>f.id===state.pref)?.name||"未知地区";
+ const name=state.pref==="all"?(state.region==="other"?"其他地区（不含东京）":"全国"):prefectures.features.find(f=>f.id===state.pref)?.name||"未知地区";
  const sub=state.pref==="13"&&state.muni!=="all"?" · "+tokyo.features.find(f=>f.id===state.muni)?.name:"";
- $("selection").textContent=(state.mode==="month"?"2026年"+state.month+"月":state.date.replace(/-/g,"/"))+" · "+name+sub;
+ $("selection").textContent=(state.mode==="month"?"2026年"+state.month+"月":state.date.replace(/-/g,"/"))+" · "+name+sub+" · "+(state.category==="staff_talk"?"制作人员座谈":state.category==="other"?"其他类型":"所有类型");
  const root=$("events");root.replaceChildren();
  if(!found.length){
   const box=text("div","","empty");box.append(text("strong","当前条件下暂无已收录的演示活动"),text("span","不代表这一日期或这个地方在2026年没有举办相关活动。"));root.append(box);
@@ -254,14 +268,17 @@ function drawEvents(){
    card.append(top,content);root.append(card);
   }
  }
- // Return to matching time range in calendar, without unsupported pref/municipality params.
+ // Keep the calendar-supported filters; exact non-Tokyo prefecture/ward granularity cannot be represented there.
  const back=new URLSearchParams({month:String(state.month),mode:state.mode,date:state.date});
- if(state.pref==="13")back.set("region","tokyo");
+ if(state.region!=="all")back.set("region",state.region);
+ if(state.category!=="all")back.set("category",state.category);
  $("calendar-link").href="./index.html?"+back.toString();
  $("calendar-return").href=$("calendar-link").href;
+ $("granularity-note").hidden=!(state.pref!=="all"&&(state.pref!=="13"||state.muni!=="all"));
 }
 function render(){
  $("month").value=String(state.month);
+ $("category").value=state.category;
  $("date").value=state.date;
  $("date-field").hidden=state.mode==="month";
  $("mode-day").setAttribute("aria-pressed",String(state.mode==="day"));
@@ -273,6 +290,7 @@ function initControls(){
  for(const p of prefectures.features){const op=document.createElement("option");op.value=p.id;op.textContent=p.name;$("prefecture").append(op);}
  for(const p of tokyo.features){const op=document.createElement("option");op.value=p.id;op.textContent=p.name;$("municipality").append(op);}
  $("month").addEventListener("change",e=>changeMonth(Number(e.target.value)));
+ $("category").addEventListener("change",e=>{state.category=e.target.value;persist();render();});
  $("date").addEventListener("change",e=>{
   if(!validDate(e.target.value)){render();return;}
   state.date=e.target.value;state.month=Number(e.target.value.slice(5,7));state.mode="day";persist();render();
@@ -290,9 +308,7 @@ function initControls(){
   state.month=validMonth(m)?Number(m):10;state.mode=p.get("mode")==="month"?"month":"day";
   state.date=validDate(p.get("date"))?p.get("date"):dt(state.month,1);
   if(Number(state.date.slice(5,7))!==state.month)state.date=dt(state.month,1);
-  state.pref=prefectures.features.some(f=>f.id===p.get("pref"))?p.get("pref"):"all";
-  state.muni=state.pref==="13"&&tokyo.features.some(f=>f.id===p.get("muni"))?p.get("muni"):"all";
-  state.view=["mainland","izu","ogasawara"].includes(p.get("view"))?p.get("view"):"mainland";
+  restoreLocationAndCategory(p);
   render();
  });
 }
